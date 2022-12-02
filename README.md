@@ -26,15 +26,15 @@ dual digital delay / comb filter (WIP)
 - pages
     - m
         - E1: mode
-        - E2: mod rate
-        - E3: mod depth
+        - E2: lfo rate
+        - E3: lfo depth
     - 1 & (2)
         - E1: quality
         - E2: feedback
         - E3: time
         - K2: range
 - K1: mod assignment
-    - options per-control: none, int, (crow input) 1, 2
+    - options per-control: none, lfo, (crow input) 1, 2
 
 (page 2 is only accessible in dual mode)
 
