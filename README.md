@@ -10,6 +10,7 @@ dual digital delay / comb filter (WIP)
 **reccommended**
 
 - midi mapping
+- mixer with send or line level conversion for modular system
 
 **also supported**
 
