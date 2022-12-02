@@ -11,7 +11,7 @@ dual digital delay & comb filter with multiple routing modes, internal/external 
 **reccommended**
 
 - midi mapping
-- mixer with send or line level conversion for modular system
+- mixer with send or line-level compatible modular system
 
 **also supported**
 
