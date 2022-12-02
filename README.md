@@ -1,5 +1,6 @@
-# eels
-dual digital delay / comb filter (WIP)
+# eels (WIP)
+
+dual digital delay / comb filter
 
 ## hardware
 
