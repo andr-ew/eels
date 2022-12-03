@@ -57,8 +57,8 @@ range: lo, hi.
 
 ## engine commands
 
-- `rate_a(seconds)`
-- `rate_b(seconds)`
+- `time_a(seconds)`
+- `time_b(seconds)`
 - `quality_a(crossfade)`
 - `quality_b(crossfade)`
 - `amp_in_a(ch, amp)`
