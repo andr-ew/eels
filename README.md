@@ -31,7 +31,7 @@ dual digital delay & comb filter with multiple routing modes, internal/external 
         - E2: lfo rate
         - E3: lfo depth
     - a & (b)
-        - E1: quality
+        - E1: level
         - E2: feedback
         - E3: time
         - K2: range
