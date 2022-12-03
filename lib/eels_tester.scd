@@ -15,6 +15,9 @@ s.doWhenBooted({
 });
 )
 
+~eels.synth.set(\time_b, 0.3);
+~eels.synth.set(\time_b, 0.2);
+
+
 //free
 ~eels.free;
-
