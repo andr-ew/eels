@@ -1,6 +1,6 @@
 # eels (WIP)
 
-dual digital delay & comb filter with multiple routing modes, internal/external modulation
+dual digital delay / comb filter with multiple routing modes, internal/external modulation
 
 ## hardware
 
