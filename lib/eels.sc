@@ -3,6 +3,7 @@ Eels {
 
     var s;
     var <def;
+    var <commandNames;
     var <synth;
     var <buffers;
 
@@ -11,12 +12,11 @@ Eels {
 	}
 
 	init {
-        s = Server.default;
-
-        buffers = Array.fill(2, { Buffer.alloc(s, s.sampleRate * maxDelayTime) });
+        //synthdef controls not to make into engine commands
+        var notCommand = [\outBus, \delBuf];
 
         def = SynthDef.new(\eels, {
-            var delBuf = \delBuf.kr(0!4);
+            var delBuf = \delBuf.kr(0!2);
             var extIn = SoundIn.ar([0,1]);
             var localIn = LocalIn.ar(2);
 
@@ -28,7 +28,7 @@ Eels {
             var inB = Mix.ar(
                 extIn * [\amp_in_left_b.kr(0), \amp_in_right_b.kr(1)]
             ) + Mix.ar(
-                localIn * [\feedback_b_a.kr(0), \feedback_b_b.kr(0.5)]
+                localIn * [\feedback_a_b.kr(0), \feedback_b_b.kr(0.5)]
             );
 
             var timeA = \time_a.kr(0.2, 3);
@@ -50,10 +50,20 @@ Eels {
             Out.ar(\outBus.kr(0), outA + outB);
         }).add;
 
+        //make list of commands from NamedControls
+        commandNames = List.new();
+        def.allControlNames.do({ arg c;
+            if(notCommand.indexOf(c.name).isNil, {
+                commandNames.add(c.name);
+            });
+        });
+
+        s = Server.default;
+
+        buffers = Array.fill(2, { Buffer.alloc(s, s.sampleRate * maxDelayTime) });
+
         s.sync;
-
         synth = Synth.new(\eels, [\delBuf, Array.fill(2, { arg i; buffers[i].bufnum })]);
-
         s.sync;
 
         postln("♪who let the eels out♪");

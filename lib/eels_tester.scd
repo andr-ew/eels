@@ -15,6 +15,7 @@ s.doWhenBooted({
 });
 )
 
+//send some commands
 ~eels.synth.set(\time_b, 0.9);
 ~eels.synth.set(\time_b, 0.3);
 ~eels.synth.set(\time_b, 0.23);
@@ -43,3 +44,6 @@ s.doWhenBooted({
 
 //free arcstuff
 ~comps.free;
+
+//list engine commands
+~eels.controlNames;
