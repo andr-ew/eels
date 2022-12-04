@@ -15,9 +15,31 @@ s.doWhenBooted({
 });
 )
 
+~eels.synth.set(\time_b, 0.9);
 ~eels.synth.set(\time_b, 0.3);
+~eels.synth.set(\time_b, 0.23);
 ~eels.synth.set(\time_b, 0.2);
-
+~eels.synth.set(\time_b, 0.15);
+~eels.synth.set(\time_b, 0.1);
 
 //free
 ~eels.free;
+
+//test with ArcComponents https://github.com/andr-ew/ArcComponents
+(
+~arc = Arc.new("/monome", 0);
+~arc.useDevice(0);
+~comps = ArcComponents.new(~arc);
+
+~comps.number(0, 4, true, { arg v;
+    ~eels.synth.set(\time_a, 1-v);
+    ~eels.synth.set(\time_b, 1-v + 0.1);
+});
+~comps.number(1, 4, true, { arg v;
+    ~eels.synth.set(\feedback_a_a, v);
+    ~eels.synth.set(\feedback_b_b, v);
+});
+)
+
+//free arcstuff
+~comps.free;
