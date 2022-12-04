@@ -40,8 +40,9 @@ dual digital delay / comb filter with a variety of i/o modes and modulation opti
 ## notes
 
 routing
-- **stereo**: `b` controls match `a`, but `time b` is the sum of the `a` & `b` controls.
-- **dual**: separate `a` & `b` controls.
+- **coupled**: `b` controls match `a`, but `time b` is the sum of the `a` & `b` controls.
+- **decoupled**: separate `a` & `b` controls.
+- **series**: decupled controls, `a` routed into `b`.
 - **ping-pong**: `b` controls match `a`, ping-pong feedback between delays.
 - **send/return**: `a` delay only, external feedback loop.
 
