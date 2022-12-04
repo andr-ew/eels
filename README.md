@@ -8,14 +8,10 @@ dual digital delay / comb filter with multiple routing modes, internal/external 
 
 - [norns](https://github.com/p3r7/awesome-monome-norns) (220321 or later)
 
-**reccommended**
-
-- midi mapping
-- mixer with send or line-level compatible modular system
-
 **also supported**
 
 - [crow](https://monome.org/docs/crow/)
+- arc
 
 
 ## install
@@ -36,7 +32,9 @@ dual digital delay / comb filter with multiple routing modes, internal/external 
         - E3: time
         - K2: range
 - K1: mod assignment
-    - options per-control: none, lfo, (crow input) 1, 2
+    - options per-control (time): none, lfo, midi, volt 1, volt 2, clock 1, clock 2, clock global
+    - options per-control (other): none, lfo, volt 1, volt 2
+
 
 (page b is only accessible in dual mode)
 
