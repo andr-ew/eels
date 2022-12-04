@@ -46,4 +46,8 @@ s.doWhenBooted({
 ~comps.free;
 
 //list engine commands
-~eels.controlNames;
+(
+~eels.commandNames.do({ arg name;
+    postln(name);
+});
+)
