@@ -1,6 +1,6 @@
 # eels (WIP)
 
-dual digital delay / comb filter with multiple routing modes, internal/external modulation
+dual digital delay / comb filter with a variety of i/o modes and modulation options
 
 ## hardware
 
@@ -12,7 +12,6 @@ dual digital delay / comb filter with multiple routing modes, internal/external 
 
 - [crow](https://monome.org/docs/crow/)
 - arc
-
 
 ## install
 
