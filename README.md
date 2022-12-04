@@ -32,7 +32,7 @@ dual digital delay / comb filter with multiple routing modes, internal/external 
         - E3: time
         - K2: range
 - K1: mod assignment
-    - options per-control (time): none, lfo, midi, volt 1, volt 2, clock 1, clock 2, clock global
+    - options per-control (time): none, lfo, midi, cv 1, cv 2, clock 1, clock 2, clock global
     - options per-control (other): none, lfo, volt 1, volt 2
 
 
