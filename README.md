@@ -26,10 +26,10 @@ dual digital delay / comb filter with a variety of i/o modes and modulation opti
         - E2: lfo rate
         - E3: lfo depth
     - a & (b)
-        - E1: level
+        - E1: time
+        - E2: level
         - E2: feedback
-        - E3: time
-        - K2: range
+        - K3: range
 - K1: mod assignment
     - options per-control (time): none, lfo, midi, cv 1, cv 2, clock 1, clock 2, clock global
     - options per-control (other): none, lfo, volt 1, volt 2
