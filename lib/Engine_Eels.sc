@@ -9,7 +9,7 @@ Engine_Eels : CroneEngine {
 	alloc {
         eels = Eels.new();
 
-        eels.commandNames.do({ var name;
+        eels.commandNames.do({ arg name;
             this.addCommand(name, \f, { arg msg; eels.synth.set(name, msg[1]) });
         });
     }
