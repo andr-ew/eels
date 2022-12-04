@@ -42,17 +42,17 @@ dual digital delay & comb filter with multiple routing modes, internal/external 
 
 ## notes
 
-modes
-- stereo: `b` controls match `a`, but `time b` is the sum of the `a` & `b` controls.
-- dual: separate `a` & `b` controls.
-- ping-pong: `b` controls match `a`, ping-pong feedback between delays.
-- send/return: `a` delay only, external feedback loop.
+routing
+- **stereo**: `b` controls match `a`, but `time b` is the sum of the `a` & `b` controls.
+- **dual**: separate `a` & `b` controls.
+- **ping-pong**: `b` controls match `a`, ping-pong feedback between delays.
+- **send/return**: `a` delay only, external feedback loop.
 
-range: lo, hi. 
+range: low, high. 
 - low is delay, hi is resonator/comb filter/karplus range
 - units:
-    - lo: seconds
-    - hi: note pitch +- cents
+    - low: seconds
+    - high: note pitch +- cents
 - in hi mode time mod is v/oct
 
 ## engine commands
