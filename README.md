@@ -57,13 +57,18 @@ range: lo, hi.
 
 ## engine commands
 
+- `amp_in_left_a(amp)`
+- `amp_in_right_a(amp)`
+- `amp_in_left_b(amp)`
+- `amp_in_right_b(amp)`
+- `feedback_b_a(amp)`
+- `feedback_b_b(amp)`
+- `feedback_a_a(amp)`
+- `feedback_a_b(amp)`
 - `time_a(seconds)`
 - `time_b(seconds)`
-- `quality_a(crossfade)`
-- `quality_b(crossfade)`
-- `amp_in_a(ch, amp)`
-- `amp_in_b(ch, amp)`
-- `amp_out_a(ch, amp)`
-- `amp_out_b(ch, amp)`
-- `feedback_a(voice_in, amp)`
-- `feedback_b(voice_in, amp)`
+- `interpolation(<1: non, 2: linear, 4: cubic>)`
+- `amp_out_left_a(amp)`
+- `amp_out_right_a(amp)`
+- `amp_out_left_b(amp)`
+- `amp_out_right_b(amp)`
