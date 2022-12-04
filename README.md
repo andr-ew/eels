@@ -67,7 +67,7 @@ range: lo, hi.
 - `feedback_a_b(amp)`
 - `time_a(seconds)`
 - `time_b(seconds)`
-- `interpolation(<1: non, 2: linear, 4: cubic>)`
+- `interpolation(<1: none, 2: linear, 4: cubic>)`
 - `amp_out_left_a(amp)`
 - `amp_out_right_a(amp)`
 - `amp_out_left_b(amp)`
