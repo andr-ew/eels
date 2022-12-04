@@ -30,8 +30,7 @@ end
 local ranges = { 'delay', 'comb' }
 local DELAY, COMB = 1, 2
 
--- local 
-function get_time_seconds(del)
+local function get_time_seconds(del)
     local hz = params:get('root')
     local semitone = params:get('fine') - 1
     -- local volt = params:get('course '..del) + params:get('time '..del)
@@ -96,7 +95,7 @@ do
         params:add{
             id = 'time '..del, type = 'control',
             controlspec = cs.def{
-                min = 0, max = 6, default = 3,
+                min = 0, max = 6, default = ({ 3, 0 })[i],
                 units = 'v/oct', quantum = 1/100/6,
             }
         }
