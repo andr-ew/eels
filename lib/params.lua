@@ -2,56 +2,123 @@ local function set_in_amps()
     local a = util.dbamp(params:get('in_level_a'))
     local b = util.dbamp(params:get('in_level_b'))
 
-    if mode==COUPLED and input==STEREO then
+    if mode == COUPLED and input==STEREO then
         engine.amp_in_left_a(a)
         engine.amp_in_right_a(0)
         engine.amp_in_left_b(0)
         engine.amp_in_right_b(a)
-    elseif mode==COUPLED and input==MONO then
+    elseif mode == COUPLED and input==MONO then
         engine.amp_in_left_a(a)
         engine.amp_in_right_a(a)
         engine.amp_in_left_b(a)
         engine.amp_in_right_b(a)
-    elseif mode==DECOUPLED and input==STEREO then
+    elseif (mode == DECOUPLED or mode == SERIES) and input==STEREO then
         engine.amp_in_left_a(a)
         engine.amp_in_right_a(0)
         engine.amp_in_left_b(0)
         engine.amp_in_right_b(b)
-    elseif mode==DECOUPLED and input==MONO then
+    elseif (mode == DECOUPLED or mode == SERIES) and input==MONO then
         engine.amp_in_left_a(a)
         engine.amp_in_right_a(a)
         engine.amp_in_left_b(b)
         engine.amp_in_right_b(b)
-    elseif mode==PINGPONG then
-    elseif mode==SENDRETURN then
+    elseif mode == PINGPONG then
+        engine.amp_in_left_a(a)
+        engine.amp_in_right_a(0)
+        engine.amp_in_left_b(0)
+        engine.amp_in_right_b(b)
+    elseif mode == SENDRETURN then
+        --TODO
     end
 end
 
 local ranges = { 'delay', 'comb' }
 local DELAY, COMB = 1, 2
+local mults = { [DELAY] = 2^10, [COMB] = 2^3 }
 
-local function get_time_seconds(del)
+local function get_time_seconds(del, add)
     local hz = params:get('root')
     local semitone = params:get('fine') - 1
-    -- local volt = params:get('course '..del) + params:get('time '..del)
-    local volt = params:get('time '..del)
-    local mult = ({
-        2^10,
-        2^3,
-    })[params:get('range '..del)]
+
+    local volt, mult
+    if del=='sum' then
+        volt = params:get('time a') + params:get('time b')
+        mult = mults[params:get('range a')]
+    else
+        volt = params:get('time '..del)
+        mult = mults[params:get('range '..del)]
+    end
 
     hz = hz * (2^(semitone/12)) * (2^volt) * (1/mult)
 
-    local seconds = 1/hz
-
-    print(seconds, hz)
+    return 1/hz
 end
 
 local function set_times()
+    local a = get_time_seconds('a')
+    local b = get_time_seconds('b')
+
+    print('set times', mode , a, b)
+
+    if mode == COUPLED then
+        engine.time_a(a)
+        engine.time_b(get_time_seconds('sum'))
+    elseif mode == DECOUPLED or mode == SERIES then
+        engine.time_a(a)
+        engine.time_b(b)
+    elseif mode == PINGPONG then
+        engine.time_a(a)
+        engine.time_b(a)
+    elseif mode == SENDRETURN then
+        engine.time_a(a)
+    end
 end
+
 local function set_feedbacks()
+    local a = util.dbamp(params:get('fb_level_a'))
+    local b = util.dbamp(params:get('fb_level_b'))
+
+    if mode == COUPLED then
+        engine.feedback_a_a(a)
+        engine.feedback_b_a(0)
+        engine.feedback_a_b(0)
+        engine.feedback_b_b(a)
+    elseif mode == DECOUPLED then
+        engine.feedback_a_a(a)
+        engine.feedback_b_a(0)
+        engine.feedback_a_b(0)
+        engine.feedback_b_b(b)
+    elseif mode == SERIES then
+        --TODO
+    elseif mode == PINGPONG then
+        engine.feedback_a_a(0)
+        engine.feedback_b_a(a)
+        engine.feedback_a_b(a)
+        engine.feedback_b_b(0)
+    elseif mode == SENDRETURN then
+        --TODO
+    end
 end
+
 local function set_out_amps()
+    local a = util.dbamp(params:get('out_level_a'))
+    local b = util.dbamp(params:get('out_level_b'))
+
+    if mode == COUPLED or mode == PINGPONG then
+        engine.amp_out_left_a(a)
+        engine.amp_out_right_a(0)
+        engine.amp_out_left_b(0)
+        engine.amp_out_right_b(a)
+    elseif mode == DECOUPLED then
+        engine.amp_out_left_a(a)
+        engine.amp_out_right_a(0)
+        engine.amp_out_left_b(0)
+        engine.amp_out_right_b(b)
+    elseif mode == SERIES then
+        --TODO
+    elseif mode == SENDRETURN then
+        --TODO
+    end
 end
 
 --add global params
@@ -80,7 +147,7 @@ do
     }
     params:add{
         id = 'interpolation', type = 'option',
-        options = { 'none', 'linear', 'cubic' }, default = 1,
+        options = { 'none', 'linear', 'cubic' }, default = 3,
         action = function(v) engine.interpolation(({ 1, 2, 4 })[v]) end
     }
 end
@@ -93,10 +160,10 @@ do
 
     for i,del in ipairs{ 'a', 'b' } do
         params:add{
-            id = 'time '..del, type = 'control',
+            id = 'time '..del, type = 'control', action = set_times,
             controlspec = cs.def{
                 min = 0, max = 6, default = ({ 3, 0 })[i],
-                units = 'v/oct', quantum = 1/100/6,
+                units = 'v/oct', quantum = 1/100/6, 
             }
         }
     end
@@ -136,7 +203,7 @@ do
     }
     local db0 = cs.def{
         min = -math.huge, max = 0,
-        warp = 'db', default = 0, units = 'dB',
+        warp = 'db', default = -6, units = 'dB',
     }
 
     params:add_separator('levels')
