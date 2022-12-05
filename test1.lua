@@ -23,6 +23,4 @@ crops.connect_arc(function()
 end, a)
 
 function init()
-    engine.interpolation(4)
-    engine.amp_in_left_b(1)
 end
