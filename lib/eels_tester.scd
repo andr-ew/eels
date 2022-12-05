@@ -34,7 +34,7 @@ s.doWhenBooted({
 
 ~comps.number(0, 4, true, { arg v;
     ~eels.synth.set(\time_a, 1-v);
-    ~eels.synth.set(\time_b, 1-v + 0.1);
+    ~eels.synth.set(\time_b, (1-v) + 0.1);
 });
 ~comps.number(1, 4, true, { arg v;
     ~eels.synth.set(\feedback_a_a, v);

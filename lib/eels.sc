@@ -21,12 +21,12 @@ Eels {
             var localIn = LocalIn.ar(2);
 
             var inA = Mix.ar(
-                extIn * [\amp_in_left_a.kr(1), \amp_in_right_a.kr(0)]
+                extIn * [\amp_in_left_a.kr(1), \amp_in_right_a.kr(1)]
             ) + Mix.ar(
                 localIn * [\feedback_a_a.kr(0.5), \feedback_b_a.kr(0)]
             );
             var inB = Mix.ar(
-                extIn * [\amp_in_left_b.kr(0), \amp_in_right_b.kr(1)]
+                extIn * [\amp_in_left_b.kr(1), \amp_in_right_b.kr(1)]
             ) + Mix.ar(
                 localIn * [\feedback_a_b.kr(0), \feedback_b_b.kr(0.5)]
             );
@@ -37,7 +37,7 @@ Eels {
             var phaseA = DelTapWr.ar(delBuf[0], inA);
             var phaseB = DelTapWr.ar(delBuf[1], inB);
 
-            var interp = \interpolation.kr(1);
+            var interp = \interpolation.kr(4);
 
             var delA = DelTapRd.ar(delBuf[0], phaseA, timeA, interp);
             var delB = DelTapRd.ar(delBuf[1], phaseB, timeB, interp);
@@ -71,6 +71,6 @@ Eels {
 
     free {
         synth.free;
-        buffers.free;
+        buffers.do({ arg b; b.free; });
     }
 }
