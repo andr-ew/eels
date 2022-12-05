@@ -71,6 +71,6 @@ Eels {
 
     free {
         synth.free;
-        buffers.free;
+        buffers.do({ arg b; b.free; });
     }
 }
