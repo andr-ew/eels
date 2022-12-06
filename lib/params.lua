@@ -1,4 +1,7 @@
 local function set_in_amps()
+    crops.dirty.screen = true
+    crops.dirty.arc = true
+
     local a = util.dbamp(params:get('in_level_a'))
     local b = util.dbamp(params:get('in_level_b'))
 
@@ -34,9 +37,10 @@ end
 
 local ranges = { 'delay', 'comb' }
 local DELAY, COMB = 1, 2
-local mults = { [DELAY] = 2^10, [COMB] = 2^3 }
+local mults = { [DELAY] = 2^11, [COMB] = 2^2 }
 
-local function get_time_seconds(del, add)
+--local
+function get_time_seconds(del, add)
     local hz = params:get('root')
     local semitone = params:get('fine') - 1
 
@@ -55,10 +59,11 @@ local function get_time_seconds(del, add)
 end
 
 local function set_times()
+    crops.dirty.screen = true
+    crops.dirty.arc = true
+
     local a = get_time_seconds('a')
     local b = get_time_seconds('b')
-
-    print('set times', mode , a, b)
 
     if mode == COUPLED then
         engine.time_a(a)
@@ -75,6 +80,9 @@ local function set_times()
 end
 
 local function set_feedbacks()
+    crops.dirty.screen = true
+    crops.dirty.arc = true
+
     local a = util.dbamp(params:get('fb_level_a'))
     local b = util.dbamp(params:get('fb_level_b'))
 
@@ -101,6 +109,9 @@ local function set_feedbacks()
 end
 
 local function set_out_amps()
+    crops.dirty.screen = true
+    crops.dirty.arc = true
+
     local a = util.dbamp(params:get('out_level_a'))
     local b = util.dbamp(params:get('out_level_b'))
 
@@ -162,7 +173,7 @@ do
         params:add{
             id = 'time '..del, type = 'control', action = set_times,
             controlspec = cs.def{
-                min = 0, max = 6, default = ({ 3, 0 })[i],
+                min = 0, max = 6, default = ({ 2, 0.01 })[i],
                 units = 'v/oct', quantum = 1/100/6, 
             }
         }
