@@ -2,8 +2,8 @@ local function set_in_amps()
     crops.dirty.screen = true
     crops.dirty.arc = true
 
-    local a = util.dbamp(params:get('in_level_a'))
-    local b = util.dbamp(params:get('in_level_b'))
+    local a = util.dbamp(params:get('in_level_a')) --TODO: volts
+    local b = util.dbamp(params:get('in_level_b')) --TODO: volts
 
     if mode == COUPLED and input==STEREO then
         engine.amp_in_left_a(a)
@@ -31,7 +31,10 @@ local function set_in_amps()
         engine.amp_in_left_b(0)
         engine.amp_in_right_b(b)
     elseif mode == SENDRETURN then
-        --TODO
+        engine.amp_in_left_a(a)
+        -- engine.amp_in_right_a(feedback)
+        engine.amp_in_left_b(0)
+        engine.amp_in_right_b(0)
     end
 end
 
@@ -76,6 +79,7 @@ local function set_times()
         engine.time_b(a)
     elseif mode == SENDRETURN then
         engine.time_a(a)
+        engine.time_b(a)
     end
 end
 
@@ -83,8 +87,8 @@ local function set_feedbacks()
     crops.dirty.screen = true
     crops.dirty.arc = true
 
-    local a = util.dbamp(params:get('fb_level_a'))
-    local b = util.dbamp(params:get('fb_level_b'))
+    local a = util.dbamp(params:get('fb_level_a')) --TODO: volts
+    local b = util.dbamp(params:get('fb_level_b')) --TODO: volts
 
     if mode == COUPLED then
         engine.feedback_a_a(a)
@@ -97,14 +101,22 @@ local function set_feedbacks()
         engine.feedback_a_b(0)
         engine.feedback_b_b(b)
     elseif mode == SERIES then
-        --TODO
+        engine.feedback_a_a(a)
+        engine.feedback_b_a(0)
+        -- engine.feedback_a_b(out_a)
+        engine.feedback_b_b(b)
     elseif mode == PINGPONG then
         engine.feedback_a_a(0)
         engine.feedback_b_a(a)
         engine.feedback_a_b(a)
         engine.feedback_b_b(0)
     elseif mode == SENDRETURN then
-        --TODO
+        engine.feedback_a_a(0)
+        engine.feedback_b_a(0)
+        engine.feedback_a_b(0)
+        engine.feedback_b_b(0)
+
+        engine.amp_in_right_a(a)
     end
 end
 
@@ -112,8 +124,8 @@ local function set_out_amps()
     crops.dirty.screen = true
     crops.dirty.arc = true
 
-    local a = util.dbamp(params:get('out_level_a'))
-    local b = util.dbamp(params:get('out_level_b'))
+    local a = util.dbamp(params:get('out_level_a')) --TODO: volts
+    local b = util.dbamp(params:get('out_level_b')) --TODO: volts
 
     if mode == COUPLED or mode == PINGPONG then
         engine.amp_out_left_a(a)
@@ -126,9 +138,17 @@ local function set_out_amps()
         engine.amp_out_left_b(0)
         engine.amp_out_right_b(b)
     elseif mode == SERIES then
-        --TODO
+        engine.amp_out_left_a(a)
+        engine.amp_out_right_a(0)
+        engine.amp_out_left_b(0)
+        engine.amp_out_right_b(b)
+
+        engine.feedback_a_b(a)
     elseif mode == SENDRETURN then
-        --TODO
+        engine.amp_out_left_a(a)
+        engine.amp_out_right_a(1)
+        engine.amp_out_left_b(0)
+        engine.amp_out_right_b(0)
     end
 end
 
@@ -208,6 +228,7 @@ end
 
 --add levels params
 do
+    --TODO: volts as unit instead of dB
     local db6 = cs.def{
         min = -math.huge, max = 6,
         warp = 'db', default = 0, units = 'dB',
@@ -237,6 +258,7 @@ do
             controlspec = db6, action = set_out_amps,
         }
     end
+    --TODO: width
 end
 
 --add destination params
