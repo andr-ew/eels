@@ -15,6 +15,9 @@ inputs = { 'stereo', 'mono' }
 STEREO, MONO = 1, 2
 input = MONO --STEREO
 
+ranges = { 'delay', 'comb' }
+DELAY, COMB = 1, 2
+
 a = arc.connect()
 
 --external libs

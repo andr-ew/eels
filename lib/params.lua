@@ -1,9 +1,40 @@
+local function ampdb(amp) return math.log10(amp) * 20.0 end
+local function dbamp(db) return math.pow(10.0, db*0.05) end
+
+local function get_amp(id)
+    local minval = -math.huge
+    local maxval = 0
+    local range = dbamp(maxval) - dbamp(minval)
+
+    local volt = params:get(id)
+    local scaled = volt/4
+    local db = ampdb(scaled * scaled * range + dbamp(minval))
+    local amp = dbamp(db)
+
+    return amp
+end
+local function get_amp_feedback(id)
+    local range = params:get('range a')
+    local volt = params:get(id)
+    local scaled = volt/5
+    
+    if range == COMB then
+        if volt > 0 then
+            scaled = scaled^(1/5)
+        else
+            scaled = math.abs(scaled)^(1/5)
+        end
+    end
+
+    return scaled
+end
+
 local function set_in_amps()
     crops.dirty.screen = true
     crops.dirty.arc = true
 
-    local a = util.dbamp(params:get('in_level_a')) --TODO: volts
-    local b = util.dbamp(params:get('in_level_b')) --TODO: volts
+    local a = get_amp('in_level_a')
+    local b = get_amp('in_level_b')
 
     if mode == COUPLED and input==STEREO then
         engine.amp_in_left_a(a)
@@ -38,20 +69,19 @@ local function set_in_amps()
     end
 end
 
-local ranges = { 'delay', 'comb' }
-local DELAY, COMB = 1, 2
 local mults = { [DELAY] = 2^11, [COMB] = 2^2 }
 
 --local
 function get_time_seconds(del, add)
     local hz = params:get('root')
-    local semitone = params:get('fine') - 1
 
-    local volt, mult
+    local semitone, volt, mult
     if del=='sum' then
+        semitone = params:get('fine a') - 1
         volt = params:get('time a') + params:get('time b')
         mult = mults[params:get('range a')]
     else
+        semitone = params:get('fine '..del) - 1
         volt = params:get('time '..del)
         mult = mults[params:get('range '..del)]
     end
@@ -87,8 +117,8 @@ local function set_feedbacks()
     crops.dirty.screen = true
     crops.dirty.arc = true
 
-    local a = util.dbamp(params:get('fb_level_a')) --TODO: volts
-    local b = util.dbamp(params:get('fb_level_b')) --TODO: volts
+    local a = get_amp_feedback('fb_level_a')
+    local b = get_amp_feedback('fb_level_b')
 
     if mode == COUPLED then
         engine.feedback_a_a(a)
@@ -124,8 +154,8 @@ local function set_out_amps()
     crops.dirty.screen = true
     crops.dirty.arc = true
 
-    local a = util.dbamp(params:get('out_level_a')) --TODO: volts
-    local b = util.dbamp(params:get('out_level_b')) --TODO: volts
+    local a = get_amp('out_level_a')
+    local b = get_amp('out_level_b')
 
     if mode == COUPLED or mode == PINGPONG then
         engine.amp_out_left_a(a)
@@ -152,7 +182,7 @@ local function set_out_amps()
     end
 end
 
---add global params
+--add mode params
 do
     params:add_separator('modes')
 
@@ -168,6 +198,15 @@ do
             set_out_amps()
         end
     }
+    for i,del in ipairs{ 'a', 'b' } do
+        params:add{
+            id = 'range '..del, type = 'option',
+            options = ranges, default = DELAY, action = function()
+                set_times()
+                set_feedbacks()
+            end,
+        }
+    end
     params:add{
         name = 'input', id = 'input_mode', type = 'option',
         options = inputs, default = input,
@@ -198,17 +237,18 @@ do
             }
         }
     end
-    for i,del in ipairs{ 'a', 'b' } do
-        params:add{
-            id = 'range '..del, type = 'option',
-            options = ranges, default = DELAY, action = set_times,
-        }
-    end
         -- params:add{
         --     id = 'course '..del, type = 'number',
         --     min = -4, max = 4, default = 0, action = set_times,
         --     formatter = function(self) return self.value..' v/oct' end
         -- }
+
+    for i,del in ipairs{ 'a', 'b' } do
+        params:add{
+            id = 'fine '..del, type = 'option',
+            options = notes, action = set_times,
+        }
+    end
 
     params:add{
         id = 'root', type = 'control',
@@ -220,42 +260,31 @@ do
         }, 
         action = set_times,
     }
-    params:add{
-        id = 'fine', type = 'option',
-        options = notes, default = tab.key(notes, 'C'), action = set_times,
-    }
 end
 
 --add levels params
 do
-    --TODO: volts as unit instead of dB
-    local db6 = cs.def{
-        min = -math.huge, max = 6,
-        warp = 'db', default = 0, units = 'dB',
-    }
-    local db0 = cs.def{
-        min = -math.huge, max = 0,
-        warp = 'db', default = -6, units = 'dB',
-    }
+    local cs_lvl = cs.def{ min = 0, max = 5, default = 4, units = 'v' }
 
     params:add_separator('levels')
 
     for i,del in ipairs{ 'a', 'b' } do
         params:add{
             name = 'feedback '..del, id = 'fb_level_'..del, type = 'control',
-            controlspec = db0, action = set_feedbacks,
+            controlspec = cs.def{ min = -5, max = 5, default = (0.5)*5, units = 'v' },
+            action = set_feedbacks,
         }
     end
     for i,del in ipairs{ 'a', 'b' } do
         params:add{
             name = 'input '..del, id = 'in_level_'..del, type = 'control',
-            controlspec = db6, action = set_in_amps,
+            controlspec = cs_lvl, action = set_in_amps,
         }
     end
     for i,del in ipairs{ 'a', 'b' } do
         params:add{
             name = 'output '..del, id = 'out_level_'..del, type = 'control',
-            controlspec = db6, action = set_out_amps,
+            controlspec = cs_lvl, action = set_out_amps,
         }
     end
     --TODO: width
