@@ -11,14 +11,6 @@ tab = require 'tabutil'
 cs = require 'controlspec'
 lfos = require 'lfo'
 
---git submodule libs
-
-include 'lib/crops/core'                      --crops, a UI component framework
-_arc = include 'lib/crops/routines/arc'
-_enc = include 'lib/crops/routines/enc'
-_key = include 'lib/crops/routines/key'
-_screen = include 'lib/crops/routines/screen'
-
 --global variables
 
 modes = { 'coupled', 'decoupled', 'series', 'ping-pong', 'send/return' }
@@ -43,27 +35,35 @@ lfo = lfos:add{
     action = function(scaled) mod.set('lfo', scaled) end,
 }
 
+--git submodule libs
+
+include 'lib/crops/core'                      --crops, a UI component framework
+_arc = include 'lib/crops/routines/arc'
+_enc = include 'lib/crops/routines/enc'
+_key = include 'lib/crops/routines/key'
+_screen = include 'lib/crops/routines/screen'
+
 --script lib files
 
 set = include 'lib/set'                       --engine setter functions
 mod = include 'lib/modulation'                --modulation code
 include 'lib/params'                          --add params
-Eels = include 'lib/ui'                       --crops-based UI components
-
---engine
-
-engine.name = 'Eels'
+App = {}
+App.norns = include 'lib/ui/norns'            --norns UI component
+App.arc = include 'lib/ui/arc'                --arc UI component
 
 --connect UI components
 
-_eels = { norns = Eels.norns(), arc = Eels.arc() }
+_app = { norns = App.norns(), arc = App.arc() }
 
-crops.connect_arc(_eels.arc, a)
-crops.connect_enc(_eels.norns)
-crops.connect_key(_eels.norns)
-crops.connect_screen(_eels.norns)
+crops.connect_arc(_app.arc, a)
+crops.connect_enc(_app.norns)
+crops.connect_key(_app.norns)
+crops.connect_screen(_app.norns)
 
---norns global functions
+--norns globals
+
+engine.name = 'Eels'
 
 function init()
     params:set('mod time a', tab.key(mod.sources['time a'], 'lfo'))
@@ -75,4 +75,8 @@ function init()
     --params:read()
     
     params:bang()
+end
+
+function cleanup()
+    --params:write()
 end

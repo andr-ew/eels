@@ -110,6 +110,5 @@ end
 mod.params()
 
 --add LFO params
-
 params:add_separator('lfo')
 lfo:add_params('lfo')
