@@ -35,6 +35,8 @@ lfo = lfos:add{
     action = function(scaled) mod.set('lfo', scaled) end,
 }
 
+enabled = {}
+
 --git submodule libs
 
 include 'lib/crops/core'                      --crops, a UI component framework
