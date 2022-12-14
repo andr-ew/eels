@@ -31,10 +31,18 @@ local function _ctl(props)
             params.set, params, props.id,
         },
     }
+
+    local src = params:get('mod '..props.id)
     _screen.list{
         x = e[props.n].x,
         y = e[props.n].y,
-        text = { props.id, string.format('%.3f', params:get(props.id)) },
+        margin = 3,
+        text = {
+            props.name, 
+            string.format('%.3f', params:get(props.id)),
+            (src > 1) and '+' or nil,
+            (src > 1) and string.sub(string.format('%.3f', mod.get(props.id)), 2) or nil,
+        },
         levels = { 4, 15 },
     }
 end
@@ -42,7 +50,7 @@ end
 function Norns()
     return function()
         _ctl{
-            n = 1, id = 'time a'
+            n = 1, id = 'time a', name = 'time'
         }
     end
 end

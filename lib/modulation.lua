@@ -51,12 +51,14 @@ function mod.params()
     end
 end
 
+local arc_silent = true
+
 function mod.set(src, v)
     mod.values[src] = v
 
     for _,dest in ipairs(mod.destinations) do
         if mod.sources[dest][params:get('mod '..dest)] == src then 
-            mod.actions[dest]() 
+            mod.actions[dest](arc_silent) 
         end
     end
 end

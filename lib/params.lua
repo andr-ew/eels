@@ -49,7 +49,7 @@ do
             id = 'time '..del, type = 'control', action = set.times,
             controlspec = cs.def{
                 min = 0, max = 6, default = ({ 2, 0.01 })[i],
-                units = 'v/oct', quantum = 1/100/6, 
+                units = 'v/oct', quantum = 1/100/6, step = 0.005,
             }
         }
     end

@@ -56,9 +56,9 @@ end
 
 local set = {}
 
-function set.in_amps()
+function set.in_amps(arc_silent)
     crops.dirty.screen = true
-    crops.dirty.arc = true
+    if not (arc_silent == true) then crops.dirty.arc = true end
 
     local a = get_amp('in_level_a', 'input a')
     local b = get_amp('in_level_b', 'input b')
@@ -96,9 +96,9 @@ function set.in_amps()
     end
 end
 
-function set.times()
+function set.times(arc_silent)
     crops.dirty.screen = true
-    crops.dirty.arc = true
+    if not (arc_silent == true) then crops.dirty.arc = true end
 
     local a = get_time_seconds('a')
     local b = get_time_seconds('b')
@@ -118,9 +118,9 @@ function set.times()
     end
 end
 
-function set.feedbacks()
+function set.feedbacks(arc_silent)
     crops.dirty.screen = true
-    crops.dirty.arc = true
+    if not (arc_silent == true) then crops.dirty.arc = true end
 
     local a = get_amp_feedback('fb_level_a', 'feedback a')
     local b = get_amp_feedback('fb_level_b', 'feedback b')
@@ -155,9 +155,9 @@ function set.feedbacks()
     end
 end
 
-function set.out_amps()
+function set.out_amps(arc_silent)
     crops.dirty.screen = true
-    crops.dirty.arc = true
+    if not (arc_silent == true) then crops.dirty.arc = true end
 
     local a = get_amp('out_level_a', 'output a')
     local b = get_amp('out_level_b', 'output b')
