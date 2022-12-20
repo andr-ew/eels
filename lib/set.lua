@@ -140,6 +140,8 @@ function set.times(arc_silent)
     end
 end
 
+--TODO: set.time_lags
+
 function set.feedbacks(arc_silent)
     crops.dirty.screen = true
     if not (arc_silent == true) then crops.dirty.arc = true end

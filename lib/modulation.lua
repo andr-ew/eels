@@ -8,8 +8,8 @@ mod.destinations = {
 mod.sources = {}
 
 do
-    local time = { 'none', 'lfo', 'crow input 1', 'crow input 2', 'midi', 'clock' }
-    local other = { 'none', 'lfo', 'crow input 1', 'crow input 2'  }
+    local time = { 'none', 'lfo', 'crow in 1', 'crow in 2', 'midi', 'clock' }
+    local other = { 'none', 'lfo', 'crow in 1', 'crow in 2'  }
 
     for _,dest in ipairs(mod.destinations) do
         mod.sources[dest] = other
@@ -22,8 +22,8 @@ end
 mod.values = {
     ['none'] = 0,
     ['lfo'] = 0,
-    ['crow input 1'] = 0,
-    ['crow input 2'] = 0,
+    ['crow in 1'] = 0,
+    ['crow in 2'] = 0,
     ['midi'] = 0,
     ['clock'] = 0,
 }
@@ -46,7 +46,8 @@ function mod.params()
     for _,dest in ipairs(mod.destinations) do
         params:add{
             name = dest, id = 'mod '..dest, type = 'option', 
-            options = mod.sources[dest]
+            options = mod.sources[dest],
+            action = function() crops.dirty.screen = true end
         }
     end
 end

@@ -22,36 +22,93 @@ local k = {
     { x = x[2], y = y[4] },
 }
 
-local function _ctl(props)
-    _enc.control{
-        n = props.n,
-        controlspec = params:lookup_param(props.id).controlspec,
-        state = {
-            params:get(props.id), 
-            params.set, params, props.id,
-        },
-    }
+alt = 0
 
-    local src = params:get('mod '..props.id)
+local function _ctl(props)
+    if alt == 0 then
+        _enc.control{
+            n = props.n,
+            controlspec = params:lookup_param(props.id).controlspec,
+            state = {
+                params:get(props.id), 
+                params.set, params, props.id,
+            },
+        }
+    else
+        _enc.number{
+            n = props.n, max = #mod.sources[props.mod_id], sensitivity = 1,
+            state = {
+                params:get('mod '..props.mod_id), 
+                params.set, params, 'mod '..props.mod_id,
+            },
+        }
+    end
+
+    local src = params:get('mod '..props.mod_id)
     _screen.list{
         x = e[props.n].x,
         y = e[props.n].y,
         margin = 3,
-        text = {
+        text = alt==0 and {
             props.name, 
-            string.format('%.3f', params:get(props.id)),
+            string.format('%.2f', params:get(props.id)),
             (src > 1) and '+' or nil,
-            (src > 1) and string.sub(string.format('%.3f', mod.get(props.id)), 2) or nil,
+            (src > 1) and string.sub(string.format('%.3f', mod.get(props.mod_id)), 2) or nil
+        } or {
+            props.name,
+            mod.sources[props.mod_id][src]
         },
-        levels = { 4, 15 },
+        levels = { 4, enabled[props.id] and 15 or 4 },
     }
 end
 
+local function _del(props)
+    _ctl{ n = 1, id = 'time '..props.del, mod_id = 'time '..props.del, name = 'time', }
+    _ctl{ n = 2, id = 'fb_level_'..props.del, mod_id = 'feedback '..props.del, name = 'fb' }
+    _ctl{ n = 3, id = 'out_level_'..props.del, mod_id = 'output '..props.del, name = 'out' }
+
+    _key.number{
+        n_next = 3, min = 1, max = #ranges,
+        state = {
+            params:get('range '..props.del), 
+            params.set, params, 'range '..props.del,
+        },
+    }
+    _screen.list{
+        x = k[3].x, y = k[3].y,
+        text = ranges, focus = params:get('range '..props.del),
+    }
+end
+
+local function _mode_mod(props)
+
+end
+
 function Norns()
+    local tab = 1
+    local A, B, M = 1, 2, 3
+
     return function()
-        _ctl{
-            n = 1, id = 'time a', name = 'time'
+        _key.number{
+            n_next = 2, min = 1, max = 3,
+            state = { tab, function(v) tab = v; crops.dirty.screen = true end },
         }
+        _screen.list{
+            x = k[2].x, y = k[2].y, margin = 3,
+            text = { 'A', 'B', 'M' }, focus = tab,
+        }
+
+        _key.momentary{
+            n = 1, state = { alt, function(v) alt = v; crops.dirty.screen = true end }
+        }
+
+        if tab == A then
+            _del{ del = 'a' }
+        elseif tab == B then
+            _del{ del = 'b' }
+        elseif tab == M then
+            _mode_mod{}
+        end
     end
 end
 

@@ -26,7 +26,7 @@ local function _time(props)
     if enabled['time '..props.del] then
         _ctl{
             n = props.n, id = 'time '..props.del, levels = { 0, 0, 15 }, 
-            sensitivity = 0.5, x = { min, max },
+            sensitivity = 1, x = { min, max },
         }
     end
 end
