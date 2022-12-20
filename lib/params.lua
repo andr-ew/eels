@@ -31,11 +31,6 @@ do
             set.in_amps()
         end
     }
-    params:add{
-        id = 'interpolation', type = 'option',
-        options = { 'none', 'linear', 'cubic' }, default = 3,
-        action = function(v) engine.interpolation(({ 1, 2, 4 })[v]) end
-    }
 end
 
 --add time params
@@ -73,7 +68,7 @@ do
             max = 420+50,
             default = 440,
             units = 'hz',
-        }, 
+        },
         action = set.times,
     }
 end
