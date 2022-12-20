@@ -77,6 +77,7 @@ local function _del(props)
     _screen.list{
         x = k[3].x, y = k[3].y,
         text = ranges, focus = params:get('range '..props.del),
+        levels = { 4, enabled['time '..props.del] and 15 or 4 },
     }
 end
 
