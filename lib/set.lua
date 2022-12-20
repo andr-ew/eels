@@ -31,7 +31,7 @@ end
 
 local mults = { [DELAY] = 2^11, [COMB] = 2^2 }
 
-local function get_time_seconds(del, add)
+local function get_time_seconds(del)
     local hz = params:get('root')
 
     local semitone, volt, mult
@@ -55,6 +55,8 @@ local function get_time_seconds(del, add)
 end
 
 local set = {}
+
+set.get_time_seconds = get_time_seconds
 
 function set.in_amps(arc_silent)
     crops.dirty.screen = true

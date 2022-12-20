@@ -34,8 +34,8 @@ Eels {
             var timeA = \time_a.kr(0.2, \time_lag_a.kr(3));
             var timeB = \time_b.kr(0.2, \time_lag_b.kr(3));
 
-            var delA = BufDelayL.ar(delBuf[0], inA, timeA);
-            var delB = BufDelayL.ar(delBuf[1], inB, timeB);
+            var delA = BufDelayC.ar(delBuf[0], inA, timeA);
+            var delB = BufDelayC.ar(delBuf[1], inB, timeB);
 
             var outA = delA!2 * [\amp_out_left_a.kr(1), \amp_out_right_a.kr(0)];
             var outB = delB!2 * [\amp_out_left_b.kr(0), \amp_out_right_b.kr(1)];
