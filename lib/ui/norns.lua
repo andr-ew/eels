@@ -46,9 +46,7 @@ local function _ctl(props)
 
     local src = params:get('mod '..props.mod_id)
     _screen.list{
-        x = e[props.n].x,
-        y = e[props.n].y,
-        margin = 3,
+        x = e[props.n].x, y = e[props.n].y, margin = 3,
         text = alt==0 and {
             props.name, 
             string.format('%.2f', params:get(props.id)),
@@ -82,7 +80,58 @@ local function _del(props)
 end
 
 local function _mode_mod(props)
-
+    do
+        local n, id = 1, 'io_mode'
+        _enc.number{
+            n = n, max = #modes, sensitivity = 1,
+            state = {
+                params:get(id), 
+                params.set, params, id,
+            },
+        }
+        _screen.list{
+            x = e[n].x, y = e[n].y, margin = 3,
+            text = { 'i/o', modes[params:get(id)] },
+        }
+    end
+    do
+        local n, id = 2, 'lfo_free_lfo'
+        _enc.control{
+            n = n,
+            -- controlspec = params:lookup_param(id).controlspec,
+            state = {
+                params:get_raw(id), 
+                function(v)
+                    params:set_raw(id, v)
+                    crops.dirty.screen = true
+                end
+            },
+        }
+        _screen.list{
+            x = e[n].x, y = e[n].y, margin = 3,
+            text = { 'rate', params:get(id)..' sec' },
+        }
+    end
+    do
+        local n, id = 3, 'lfo_depth_lfo'
+        _enc.number{
+            n = n,
+            min = params:lookup_param(id).min,
+            max = params:lookup_param(id).max,
+            sensitivity = 1,
+            state = {
+                params:get(id), 
+                function(v)
+                    params:set(id, v)
+                    crops.dirty.screen = true
+                end
+            },
+        }
+        _screen.list{
+            x = e[n].x, y = e[n].y, margin = 3,
+            text = { 'depth', params:get(id)..'%' },
+        }
+    end
 end
 
 function Norns()
