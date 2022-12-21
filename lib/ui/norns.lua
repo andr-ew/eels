@@ -98,7 +98,6 @@ local function _mode_mod(props)
         local n, id = 2, 'lfo_free_lfo'
         _enc.control{
             n = n,
-            -- controlspec = params:lookup_param(id).controlspec,
             state = {
                 params:get_raw(id), 
                 function(v)
