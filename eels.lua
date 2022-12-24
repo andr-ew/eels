@@ -11,6 +11,14 @@ tab = require 'tabutil'
 cs = require 'controlspec'
 lfos = require 'lfo'
 
+--git submodule libs
+
+include 'lib/crops/core'                      --crops, a UI component framework
+_arc = include 'lib/crops/routines/arc'
+_enc = include 'lib/crops/routines/enc'
+_key = include 'lib/crops/routines/key'
+_screen = include 'lib/crops/routines/screen'
+
 --global variables
 
 modes = { 'coupled', 'decoupled', 'series', 'ping-pong', 'send/return' }
@@ -37,18 +45,54 @@ lfo = lfos:add{
 
 enabled = {}
 
---git submodule libs
+--script lib files
 
-include 'lib/crops/core'                      --crops, a UI component framework
-_arc = include 'lib/crops/routines/arc'
-_enc = include 'lib/crops/routines/enc'
-_key = include 'lib/crops/routines/key'
-_screen = include 'lib/crops/routines/screen'
+set = include 'lib/engine/setters'            --engine setter functions
+mod = include 'lib/modulation/matrix'         --modulation matrix
+
+--setup mod matrix
+
+mod.destinations = { 
+    'time a', 'time b', 'feedback a', 'feedback b', 
+    'output a', 'output b', 'input a', 'input b'
+}
+
+mod.sources = {}
+do
+    local time = { 'none', 'lfo', 'crow in 1', 'crow in 2', 'midi', 'clock' }
+    local other = { 'none', 'lfo', 'crow in 1', 'crow in 2'  }
+
+    for _,dest in ipairs(mod.destinations) do
+        mod.sources[dest] = other
+    end
+    for _,dest in ipairs{ 'time a', 'time b' } do
+        mod.sources[dest] = time 
+    end
+end
+
+mod.values = {
+    ['none'] = 0,
+    ['lfo'] = 0,
+    ['crow in 1'] = 0,
+    ['crow in 2'] = 0,
+    ['midi'] = 0,
+    ['clock'] = 0,
+}
+
+mod.actions = {
+    ['none'] = function() end,
+    ['time a'] = set.times,
+    ['time b'] = set.times,
+    ['feedback a'] = set.feedbacks,
+    ['feedback b'] = set.feedbacks,
+    ['output a'] = set.out_amps,
+    ['output b'] = set.out_amps,
+    ['input a'] = set.in_amps,
+    ['input b'] = set.in_amps,
+}
 
 --script lib files
 
-set = include 'lib/set'                       --engine setter functions
-mod = include 'lib/modulation'                --modulation code
 include 'lib/params'                          --add params
 App = {}
 App.norns = include 'lib/ui/norns'            --norns UI component
