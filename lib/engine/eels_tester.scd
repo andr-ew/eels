@@ -26,6 +26,27 @@ s.doWhenBooted({
 //free
 ~eels.free;
 
+//test as resonator w/ midi
+(
+MIDIClient.init;
+MIDIIn.connectAll;
+
+~eels.synth.set(\time_lag_a, 0.03);
+~eels.synth.set(\time_lag_b, 0.03);
+~eels.synth.set(\feedback_a_a, 0.99186883928257);
+~eels.synth.set(\feedback_b_b, 0.99186883928257);
+
+MIDIdef.noteOn(\keybOn, {
+	arg vel, nn, chan, src;
+
+    var hz = nn.midicps;
+    var s = 1/hz;
+
+    ~eels.synth.set(\time_a, s);
+    ~eels.synth.set(\time_b, s);
+});
+)
+
 //test with ArcComponents https://github.com/andr-ew/ArcComponents
 (
 ~arc = Arc.new("/monome", 0);
