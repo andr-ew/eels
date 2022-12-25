@@ -62,8 +62,9 @@ end
 
 local function _del(props)
     _ctl{ n = 1, id = 'time '..props.del, mod_id = 'time '..props.del, name = 'time', }
-    _ctl{ n = 2, id = 'fb_level_'..props.del, mod_id = 'feedback '..props.del, name = 'fb' }
-    _ctl{ n = 3, id = 'out_level_'..props.del, mod_id = 'output '..props.del, name = 'out' }
+    _ctl{ n = 2, id = 'time lag '..props.del, mod_id = 'time lag '..props.del, name = 'lag', }
+    _ctl{ n = 3, id = 'fb_level_'..props.del, mod_id = 'feedback '..props.del, name = 'fb' }
+    -- _ctl{ n = 3, id = 'out_level_'..props.del, mod_id = 'output '..props.del, name = 'out' }
 
     _key.number{
         n_next = 3, min = 1, max = #ranges,

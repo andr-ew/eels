@@ -20,6 +20,7 @@ do
             id = 'range '..del, type = 'option',
             options = ranges, default = DELAY, action = function()
                 set.times()
+                set.time_lags()
                 set.feedbacks()
             end,
         }
@@ -48,7 +49,7 @@ do
                 set.feedbacks()
             end,
             controlspec = cs.def{
-                min = 0, max = 6, default = ({ 2, 0.01 })[i],
+                min = 0, max = 6, default = ({ 3, 0.01 })[i],
                 units = 'v/oct', quantum = 1/100/6, step = 0.01,
             }
         }
@@ -57,8 +58,8 @@ do
         params:add{
             id = 'time lag '..del, type = 'control', action = set.time_lags,
             controlspec = cs.def{
-                min = 0, max = 4, default = 3,
-                units = 'sec', quantum = 1/100/4,
+                min = 0, max = 5, default = 3,
+                units = 'v', quantum = 1/100/5,
             }
         }
     end

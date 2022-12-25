@@ -54,7 +54,7 @@ m = include 'lib/modulation/midi'             --modulation source: midi
 --setup mod matrix
 
 mod.destinations = { 
-    'time a', 'time b', 'feedback a', 'feedback b', 
+    'time a', 'time b', 'time lag a', 'time lag b', 'feedback a', 'feedback b', 
     'output a', 'output b', 'input a', 'input b'
 }
 
@@ -82,8 +82,10 @@ mod.values = {
 
 mod.actions = {
     ['none'] = function() end,
-    ['time a'] = set.times,
-    ['time b'] = set.times,
+    ['time a'] = function() set.times(); set.feedbacks() end,
+    ['time b'] = function() set.times(); set.feedbacks() end,
+    ['time lag a'] = set.time_lags,
+    ['time lag b'] = set.time_lags,
     ['feedback a'] = set.feedbacks,
     ['feedback b'] = set.feedbacks,
     ['output a'] = set.out_amps,
@@ -119,11 +121,11 @@ function init()
     params:set('lfo_lfo', 2)
     lfo:start()
 
-    params:read()
+    -- params:read()
     
     params:bang()
 end
 
 function cleanup()
-    params:write()
+    -- params:write()
 end

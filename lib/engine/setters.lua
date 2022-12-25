@@ -89,6 +89,17 @@ local function get_time_seconds(del)
     return 1/hz
 end
 
+local function get_lag_seconds(del)
+    local volt = params:get('time lag '..del)
+    local range = params:get('range '..del)
+
+    if range == COMB then
+        return (volt/5)^4
+    elseif range == DELAY then
+        return volt
+    end
+end
+
 local set = {}
 
 set.get_time_seconds = get_time_seconds
@@ -176,20 +187,31 @@ function set.times(arc_silent)
     end
 end
 
-function set.time_lags()
-    local a = params:get('time lag a')
-    local b = params:get('time lag b')
+function set.time_lags(arc_silent)
+    crops.dirty.screen = true
+    if not (arc_silent == true) then crops.dirty.arc = true end
+
+    local a = get_lag_seconds('a')
+    local b = get_lag_seconds('b')
 
     if mode == COUPLED then
+        enabled['time lag a'] = true
+        enabled['time lag b'] = false
         engine.time_lag_a(a)
         engine.time_lag_b(a)
     elseif mode == DECOUPLED or mode == SERIES then
+        enabled['time lag a'] = true
+        enabled['time lag b'] = true
         engine.time_lag_a(a)
         engine.time_lag_b(b)
     elseif mode == PINGPONG then
+        enabled['time lag a'] = true
+        enabled['time lag b'] = false
         engine.time_lag_a(a)
         engine.time_lag_b(a)
     elseif mode == SENDRETURN then
+        enabled['time lag a'] = true
+        enabled['time lag b'] = false
         engine.time_lag_a(a)
         engine.time_lag_b(a)
     end
