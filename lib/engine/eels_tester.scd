@@ -58,8 +58,8 @@ MIDIdef.noteOn(\keybOn, {
     ~eels.synth.set(\time_b, (1-v) + 0.1);
 });
 ~comps.number(1, 4, true, { arg v;
-    ~eels.synth.set(\feedback_a_a, v);
-    ~eels.synth.set(\feedback_b_b, v);
+    ~eels.synth.set(\decay_a_a, v*10);
+    ~eels.synth.set(\decay_b_b, v*10);
 });
 )
 
@@ -72,3 +72,9 @@ MIDIdef.noteOn(\keybOn, {
     postln(name);
 });
 )
+
+
+~fb = { arg delayTime, decayTime; (0.001.log * delayTime / decayTime).exp }
+
+~fb.value(1/440, 1)
+~fb.value(0.1, 1)
