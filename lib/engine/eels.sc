@@ -1,5 +1,5 @@
 Eels {
-    const maxDelayTime = 5;
+    const maxDelayTime = 9; //will be decreased to 2^18 samples = 5.46s (?)
 
     var s;
     var <def;
@@ -22,20 +22,18 @@ Eels {
 
             var inA = Mix.ar(
                 extIn * [\amp_in_left_a.kr(1), \amp_in_right_a.kr(1)]
-            ) + Mix.ar(
-                localIn * [\feedback_a_a.kr(0.5), \feedback_b_a.kr(0)]
-            );
+            )
+            + (localIn[0] *  \amp_b_a.kr(0));
             var inB = Mix.ar(
                 extIn * [\amp_in_left_b.kr(1), \amp_in_right_b.kr(1)]
-            ) + Mix.ar(
-                localIn * [\feedback_a_b.kr(0), \feedback_b_b.kr(0.5)]
-            );
+            )
+            + (localIn[1] * \amp_a_b.kr(0));
 
             var timeA = \time_a.kr(0.2, \time_lag_a.kr(3));
             var timeB = \time_b.kr(0.2, \time_lag_b.kr(3));
 
-            var delA = BufDelayC.ar(delBuf[0], inA, timeA);
-            var delB = BufDelayC.ar(delBuf[1], inB, timeB);
+            var delA = BufCombC.ar(delBuf[0], inA, timeA, \decay_a_a.kr(5));
+            var delB = BufCombC.ar(delBuf[1], inB, timeB, \decay_b_b.kr(5));
 
             var outA = delA!2 * [\amp_out_left_a.kr(1), \amp_out_right_a.kr(0)];
             var outB = delB!2 * [\amp_out_left_b.kr(0), \amp_out_right_b.kr(1)];

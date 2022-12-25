@@ -10,6 +10,7 @@ do
 
             set.in_amps()
             set.times()
+            set.time_lags()
             set.feedbacks()
             set.out_amps()
         end
@@ -41,10 +42,23 @@ do
 
     for i,del in ipairs{ 'a', 'b' } do
         params:add{
-            id = 'time '..del, type = 'control', action = set.times,
+            id = 'time '..del, type = 'control', 
+            action = function() 
+                set.times()
+                set.feedbacks()
+            end,
             controlspec = cs.def{
                 min = 0, max = 6, default = ({ 2, 0.01 })[i],
-                units = 'v/oct', quantum = 1/100/6, step = 0.005,
+                units = 'v/oct', quantum = 1/100/6, step = 0.01,
+            }
+        }
+    end
+    for i,del in ipairs{ 'a', 'b' } do
+        params:add{
+            id = 'time lag '..del, type = 'control', action = set.time_lags,
+            controlspec = cs.def{
+                min = 0, max = 4, default = 3,
+                units = 'sec', quantum = 1/100/4,
             }
         }
     end
@@ -54,12 +68,16 @@ do
         --     formatter = function(self) return self.value..' v/oct' end
         -- }
 
-    for i,del in ipairs{ 'a', 'b' } do
-        params:add{
-            id = 'fine '..del, type = 'option',
-            options = notes, action = set.times,
-        }
-    end
+    -- for i,del in ipairs{ 'a', 'b' } do
+    params:add{
+        id = 'fine', type = 'option',
+        options = notes,
+        action = function() 
+            set.times()
+            set.feedbacks()
+        end,
+    }
+    -- end
 
     params:add{
         id = 'root', type = 'control',
@@ -69,7 +87,10 @@ do
             default = 440,
             units = 'hz',
         },
-        action = set.times,
+        action = function() 
+            set.times()
+            set.feedbacks()
+        end,
     }
 end
 
