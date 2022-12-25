@@ -5,10 +5,21 @@ local log001 = math.log(0.001)
 
 --src: https://github.com/supercollider/supercollider/blob/50281a1f265a8a4684507b3f656b95af9c5c9ad8/include/plugin_interface/SC_InlineUnaryOp.h#L273
 local function decay_amp(delay_time, decay_time) 
-    return math.exp(log001 * delay_time/decay_time) 
+    if delay_time==0 or decay_time==0 then return 0 end
+
+    local positive = decay_time > 0
+
+    local amp = math.exp(log001 * delay_time/math.abs(decay_time)) 
+
+    if positive then return amp else return -amp end
 end
 local function amp_decay(delay_time, amp) 
-    return delay_time/(math.log(amp)/log001) 
+    if delay_time==0 or amp==0 then return 0 end
+
+    local positive = amp > 0     
+    local decay = delay_time/(math.log(math.abs(amp))/log001)
+
+    if positive then return decay else return -decay end
 end
 
 local function get_amp(id, mod_id)
@@ -23,20 +34,34 @@ local function get_amp(id, mod_id)
 
     return amp
 end
-local function get_amp_feedback(id, mod_id)
-    local range = params:get('range a')
+local function volt_decay(volt)
+    return (volt/5)^2 * 10 * (volt>0 and 1 or -1)
+end
+local function get_feedback_amp(time, del)
+    local id, mod_id = 'fb_level_'..del, 'feedback '..del
+
+    local range = params:get('range '..del)
     local volt = params:get(id) + mod.get(mod_id)
-    local scaled = volt/5
     
     if range == COMB then
-        if volt > 0 then
-            scaled = scaled^(1/5)
-        else
-            scaled = math.abs(scaled)^(1/5)
-        end
+        local decay = volt_decay(volt)
+        local amp = decay_amp(time, decay)
+        return amp
+    elseif range == DELAY then
+        return volt/5
     end
+end
+local function get_feedback_decay(time, del)
+    local id, mod_id = 'fb_level_'..del, 'feedback '..del
 
-    return scaled
+    local range = params:get('range '..del)
+    local volt = params:get(id) + mod.get(mod_id)
+
+    if range == COMB then
+        return volt_decay(volt)
+    elseif range == DELAY then
+        return amp_decay(time, volt/5)
+    end
 end
 
 local mults = { [DELAY] = 2^11, [COMB] = 2^2 }
@@ -174,48 +199,53 @@ function set.feedbacks(arc_silent)
     crops.dirty.screen = true
     if not (arc_silent == true) then crops.dirty.arc = true end
 
-    local a = get_amp_feedback('fb_level_a', 'feedback a')
-    local b = get_amp_feedback('fb_level_b', 'feedback b')
     local time_a = get_time_seconds('a')
     local time_b = get_time_seconds('b')
+    local a_amp = get_feedback_amp(time_a, 'a')
+    local b_amp = get_feedback_amp(time_b, 'b')
+    local a_decay = get_feedback_decay(time_a, 'a')
+    local b_decay = get_feedback_decay(time_b, 'b')
 
     if mode == COUPLED then
+        local time_sum = get_time_seconds('sum')
+        local decay_sum = get_feedback_decay(time_sum, 'a')
+
         enabled['fb_level_a'] = true
         enabled['fb_level_b'] = false
-        engine.decay_a_a(amp_decay(time_a, a))
+        engine.decay_a_a(a_decay)
         engine.amp_b_a(0)
         engine.amp_a_b(0)
-        engine.decay_b_b(amp_decay(get_time_seconds('sum'), a))
+        engine.decay_b_b(decay_sum)
     elseif mode == DECOUPLED then
         enabled['fb_level_a'] = true
         enabled['fb_level_b'] = true
-        engine.decay_a_a(amp_decay(time_a, a))
+        engine.decay_a_a(a_decay)
         engine.amp_b_a(0)
         engine.amp_a_b(0)
-        engine.decay_b_b(amp_decay(time_b, b))
+        engine.decay_b_b(b_decay)
     elseif mode == SERIES then
         enabled['fb_level_a'] = true
         enabled['fb_level_b'] = true
-        engine.decay_a_a(amp_decay(time_a, a))
+        engine.decay_a_a(a_decay)
         engine.amp_b_a(0)
         -- engine.amp_a_b(out_a)
-        engine.decay_b_b(amp_decay(time_b, b))
+        engine.decay_b_b(a_decay)
     elseif mode == PINGPONG then
         enabled['fb_level_a'] = true
         enabled['fb_level_b'] = false
-        engine.decay_a_a(amp_decay(time_a, 0))
-        engine.amp_b_a(a)
-        engine.amp_a_b(a)
-        engine.decay_b_b(amp_decay(time_b, 0))
+        engine.decay_a_a(0)
+        engine.amp_b_a(a_amp)
+        engine.amp_a_b(a_amp)
+        engine.decay_b_b(0)
     elseif mode == SENDRETURN then
         enabled['fb_level_a'] = true
         enabled['fb_level_b'] = false
-        engine.decay_a_a(amp_decay(time_a, 0))
+        engine.decay_a_a(0)
         engine.amp_b_a(0)
         engine.amp_a_b(0)
-        engine.decay_b_b(amp_decay(time_b, 0))
+        engine.decay_b_b(0)
 
-        engine.amp_in_right_a(a)
+        engine.amp_in_right_a(a_amp)
     end
 end
 
