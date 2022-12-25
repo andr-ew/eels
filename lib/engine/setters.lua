@@ -1,6 +1,16 @@
 local function ampdb(amp) return math.log10(amp) * 20.0 end
 local function dbamp(db) return math.pow(10.0, db*0.05) end
 
+local log001 = math.log(0.001)
+
+--src: https://github.com/supercollider/supercollider/blob/50281a1f265a8a4684507b3f656b95af9c5c9ad8/include/plugin_interface/SC_InlineUnaryOp.h#L273
+local function decay_amp(delay_time, decay_time) 
+    return math.exp(log001 * delay_time/decay_time) 
+end
+local function amp_decay(delay_time, amp) 
+    return delay_time/(math.log(amp)/log001) 
+end
+
 local function get_amp(id, mod_id)
     local minval = -math.huge
     local maxval = 0
@@ -36,14 +46,14 @@ local function get_time_seconds(del)
 
     local semitone, volt, mult
     if del=='sum' then
-        semitone = params:get('fine a') - 1
+        semitone = params:get('fine') - 1
         volt = params:get('time a') 
                 + params:get('time b')
                 + mod.get('time a')
                 + mod.get('time b')
         mult = mults[params:get('range a')]
     else
-        semitone = params:get('fine '..del) - 1
+        semitone = params:get('fine') - 1
         volt = params:get('time '..del)
                 + mod.get('time '..del)
         mult = mults[params:get('range '..del)]
@@ -57,6 +67,7 @@ end
 local set = {}
 
 set.get_time_seconds = get_time_seconds
+set.get_amp_feedback = get_amp_feedback
 
 function set.in_amps(arc_silent)
     crops.dirty.screen = true
@@ -140,7 +151,24 @@ function set.times(arc_silent)
     end
 end
 
---TODO: set.time_lags
+function set.time_lags()
+    local a = params:get('time lag a')
+    local b = params:get('time lag b')
+
+    if mode == COUPLED then
+        engine.time_lag_a(a)
+        engine.time_lag_b(a)
+    elseif mode == DECOUPLED or mode == SERIES then
+        engine.time_lag_a(a)
+        engine.time_lag_b(b)
+    elseif mode == PINGPONG then
+        engine.time_lag_a(a)
+        engine.time_lag_b(a)
+    elseif mode == SENDRETURN then
+        engine.time_lag_a(a)
+        engine.time_lag_b(a)
+    end
+end
 
 function set.feedbacks(arc_silent)
     crops.dirty.screen = true
@@ -148,42 +176,44 @@ function set.feedbacks(arc_silent)
 
     local a = get_amp_feedback('fb_level_a', 'feedback a')
     local b = get_amp_feedback('fb_level_b', 'feedback b')
+    local time_a = get_time_seconds('a')
+    local time_b = get_time_seconds('b')
 
     if mode == COUPLED then
         enabled['fb_level_a'] = true
         enabled['fb_level_b'] = false
-        engine.feedback_a_a(a)
-        engine.feedback_b_a(0)
-        engine.feedback_a_b(0)
-        engine.feedback_b_b(a)
+        engine.decay_a_a(amp_decay(time_a, a))
+        engine.amp_b_a(0)
+        engine.amp_a_b(0)
+        engine.decay_b_b(amp_decay(get_time_seconds('sum'), a))
     elseif mode == DECOUPLED then
         enabled['fb_level_a'] = true
         enabled['fb_level_b'] = true
-        engine.feedback_a_a(a)
-        engine.feedback_b_a(0)
-        engine.feedback_a_b(0)
-        engine.feedback_b_b(b)
+        engine.decay_a_a(amp_decay(time_a, a))
+        engine.amp_b_a(0)
+        engine.amp_a_b(0)
+        engine.decay_b_b(amp_decay(time_b, b))
     elseif mode == SERIES then
         enabled['fb_level_a'] = true
         enabled['fb_level_b'] = true
-        engine.feedback_a_a(a)
-        engine.feedback_b_a(0)
-        -- engine.feedback_a_b(out_a)
-        engine.feedback_b_b(b)
+        engine.decay_a_a(amp_decay(time_a, a))
+        engine.amp_b_a(0)
+        -- engine.amp_a_b(out_a)
+        engine.decay_b_b(amp_decay(time_b, b))
     elseif mode == PINGPONG then
         enabled['fb_level_a'] = true
         enabled['fb_level_b'] = false
-        engine.feedback_a_a(0)
-        engine.feedback_b_a(a)
-        engine.feedback_a_b(a)
-        engine.feedback_b_b(0)
+        engine.decay_a_a(amp_decay(time_a, 0))
+        engine.amp_b_a(a)
+        engine.amp_a_b(a)
+        engine.decay_b_b(amp_decay(time_b, 0))
     elseif mode == SENDRETURN then
         enabled['fb_level_a'] = true
         enabled['fb_level_b'] = false
-        engine.feedback_a_a(0)
-        engine.feedback_b_a(0)
-        engine.feedback_a_b(0)
-        engine.feedback_b_b(0)
+        engine.decay_a_a(amp_decay(time_a, 0))
+        engine.amp_b_a(0)
+        engine.amp_a_b(0)
+        engine.decay_b_b(amp_decay(time_b, 0))
 
         engine.amp_in_right_a(a)
     end
@@ -218,7 +248,7 @@ function set.out_amps(arc_silent)
         engine.amp_out_left_b(0)
         engine.amp_out_right_b(b)
 
-        engine.feedback_a_b(a)
+        engine.amp_a_b(a)
     elseif mode == SENDRETURN then
         enabled['out_level_a'] = true
         enabled['out_level_b'] = true

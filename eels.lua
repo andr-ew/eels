@@ -49,6 +49,7 @@ enabled = {}
 
 set = include 'lib/engine/setters'            --engine setter functions
 mod = include 'lib/modulation/matrix'         --modulation matrix
+m = include 'lib/modulation/midi'             --modulation source: midi
 
 --setup mod matrix
 
@@ -118,11 +119,11 @@ function init()
     params:set('lfo_lfo', 2)
     lfo:start()
 
-    --params:read()
+    params:read()
     
     params:bang()
 end
 
 function cleanup()
-    --params:write()
+    params:write()
 end

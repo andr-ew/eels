@@ -51,7 +51,7 @@ local function _ctl(props)
             props.name, 
             string.format('%.2f', params:get(props.id)),
             (src > 1) and '+' or nil,
-            (src > 1) and string.sub(string.format('%.3f', mod.get(props.mod_id)), 2) or nil
+            (src > 1) and string.format('%.3f', mod.get(props.mod_id)) or nil
         } or {
             props.name,
             mod.sources[props.mod_id][src]
