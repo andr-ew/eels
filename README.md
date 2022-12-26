@@ -43,7 +43,7 @@ dual digital delay / comb filter with a variety of i/o modes and modulation opti
 
 ## params
 
-# modes
+### modes
 
 - i/o
     - **coupled**: `b` controls coupled with `a`, but `time b` is the sum of the `a` & `b` controls.
