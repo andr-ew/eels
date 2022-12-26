@@ -21,7 +21,6 @@ dual digital delay / comb filter with a variety of i/o modes and modulation opti
 
 - K2: page
     - pages
-        -
         - a & b
             - E1: time
             - E2: lag
