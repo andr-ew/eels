@@ -75,6 +75,7 @@ do
                     params:hide('time free '..del)
                     params:show('time oct '..del)
                 end
+                _menu.rebuild_params() --questionable?
                 
                 set.times()
                 set.feedbacks()
