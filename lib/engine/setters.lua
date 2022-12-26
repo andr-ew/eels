@@ -73,7 +73,7 @@ local function time_volt_seconds(volt, range)
     
     local seconds = 1/(hz * (2^(semitone/12)) * (2^volt) * (1/mult))
 
-    seconds = util.clamp(seconds, (1/20000), 10.9) -- 2^19 samples / 48000
+    seconds = util.clamp(seconds, (1/20000), 10.9) -- 20khz to (2^19 samples / 48000)
 
     return seconds
 end
@@ -93,18 +93,25 @@ local function time_seconds_volt(seconds, range)
     if positive then return volt else return -volt end
 end
 
+local function get_id_volts(del)
+    local quant = params:get('time '..del..' quant')
+
+    if quant == FREE then return 'time free '..del
+    elseif quant == OCT then return 'time oct '..del end
+end
+
 local function get_time_seconds(del)
     if del=='sum' then
         local range = params:get('range a')
-        local volt = params:get('time a') 
-                + params:get('time b')
+        local volt = params:get(get_id_volts('a'))
+                + params:get(get_id_volts('b'))
                 + mod.get('time a')
                 + mod.get('time b')
 
         return time_volt_seconds(volt, range)
     else
         local range = params:get('range '..del)
-        local volt = params:get('time '..del)
+        local volt = params:get(get_id_volts(del))
                 + mod.get('time '..del)
         
         return time_volt_seconds(volt, range)
@@ -127,6 +134,7 @@ local set = {}
 set.time_volt_seconds = time_volt_seconds
 set.time_seconds_volt = time_seconds_volt
 set.get_time_seconds = get_time_seconds
+set.get_id_volts = get_id_volts
 set.get_amp_feedback = get_amp_feedback
 
 function set.in_amps(arc_silent)

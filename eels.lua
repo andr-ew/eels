@@ -32,6 +32,9 @@ input = MONO --STEREO
 ranges = { 'delay', 'comb' }
 DELAY, COMB = 1, 2
 
+quants = { 'free', 'oct' }
+FREE, OCT = 1, 2
+
 a = arc.connect()
 
 enabled = {}
@@ -72,9 +75,9 @@ mod.values = {
 }
 
 mod.actions = {
-    ['none'] = function() end,
-    ['time a'] = function() set.times(); set.feedbacks() end,
-    ['time b'] = function() set.times(); set.feedbacks() end,
+    ['none'] = function(arc_silent) end,
+    ['time a'] = function(a_s) set.times(a_s); set.feedbacks(a_s) end,
+    ['time b'] = function(a_s) set.times(s_s); set.feedbacks(a_s) end,
     ['time lag a'] = set.time_lags,
     ['time lag b'] = set.time_lags,
     ['feedback a'] = set.feedbacks,
