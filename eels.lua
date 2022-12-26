@@ -34,22 +34,13 @@ DELAY, COMB = 1, 2
 
 a = arc.connect()
 
-lfo = lfos:add{
-    min = 0,
-    max = 5,
-    depth = 0.1,
-    mode = 'free',
-    period = 0.25,
-    action = function(scaled) mod.set('lfo', scaled) end,
-}
-
 enabled = {}
 
 --script lib files
 
 set = include 'lib/engine/setters'            --engine setter functions
 mod = include 'lib/modulation/matrix'         --modulation matrix
-m = include 'lib/modulation/midi'             --modulation source: midi
+src = include 'lib/modulation/sources'        --modulation sources
 
 --setup mod matrix
 
@@ -119,9 +110,11 @@ function init()
     params:set('lfo_mode_lfo', 2)
     params:set('lfo_max_lfo', 0.5)
     params:set('lfo_lfo', 2)
-    lfo:start()
 
     -- params:read()
+    
+    src.lfo:start()
+    src.clock.start()
     
     params:bang()
 end

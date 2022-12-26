@@ -1,5 +1,5 @@
 Eels {
-    const maxDelayTime = 9; //will be decreased to 2^18 samples = 5.46s (?)
+    const maxDelayTime = 11; //will be decreased to 2^19 samples = 10.92s (?)
 
     var s;
     var <def;

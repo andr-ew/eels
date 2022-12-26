@@ -49,7 +49,7 @@ do
                 set.feedbacks()
             end,
             controlspec = cs.def{
-                min = 0, max = 6, default = ({ 3, 0.01 })[i],
+                min = 0, max = 6, default = ({ 2, 0.01 })[i],
                 units = 'v/oct', quantum = 1/100/6, step = 0.01,
             }
         }
@@ -128,4 +128,4 @@ mod.params()
 
 --add LFO params
 params:add_separator('lfo')
-lfo:add_params('lfo')
+src.lfo:add_params('lfo')

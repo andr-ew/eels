@@ -66,27 +66,49 @@ end
 
 local mults = { [DELAY] = 2^11, [COMB] = 2^2 }
 
-local function get_time_seconds(del)
+local function time_volt_seconds(volt, range)
     local hz = params:get('root')
+    local semitone = params:get('fine') - 1
+    local mult = mults[range]
+    
+    local seconds = 1/(hz * (2^(semitone/12)) * (2^volt) * (1/mult))
 
-    local semitone, volt, mult
+    seconds = util.clamp(seconds, (1/20000), 10.9) -- 2^19 samples / 48000
+
+    return seconds
+end
+
+local function time_seconds_volt(seconds, range)
+    local positive = seconds >= 0
+    local hz = params:get('root')
+    local semitone = params:get('fine') - 1
+    local mult = mults[range]
+
+    --showing my work :)
+    --seconds = 1/(hz * (2^(semitone/12)) * (2^volt) * (1/mult))
+    --hz * (2^(semitone/12)) * (2^volt) * (1/mult) = 1/seconds
+    --2^volt = 1/(seconds * hz * (2^(semitone/12)) * (1/mult))
+    local volt = math.log(1/(math.abs(seconds) * hz * (2^(semitone/12)) * (1/mult)), 2)
+
+    if positive then return volt else return -volt end
+end
+
+local function get_time_seconds(del)
     if del=='sum' then
-        semitone = params:get('fine') - 1
-        volt = params:get('time a') 
+        local range = params:get('range a')
+        local volt = params:get('time a') 
                 + params:get('time b')
                 + mod.get('time a')
                 + mod.get('time b')
-        mult = mults[params:get('range a')]
+
+        return time_volt_seconds(volt, range)
     else
-        semitone = params:get('fine') - 1
-        volt = params:get('time '..del)
+        local range = params:get('range '..del)
+        local volt = params:get('time '..del)
                 + mod.get('time '..del)
-        mult = mults[params:get('range '..del)]
+        
+        return time_volt_seconds(volt, range)
     end
-
-    hz = hz * (2^(semitone/12)) * (2^volt) * (1/mult)
-
-    return 1/hz
 end
 
 local function get_lag_seconds(del)
@@ -102,6 +124,8 @@ end
 
 local set = {}
 
+set.time_volt_seconds = time_volt_seconds
+set.time_seconds_volt = time_seconds_volt
 set.get_time_seconds = get_time_seconds
 set.get_amp_feedback = get_amp_feedback
 
