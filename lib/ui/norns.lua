@@ -26,14 +26,27 @@ alt = 0
 
 local function _ctl(props)
     if alt == 0 then
-        _enc.control{
-            n = props.n,
-            controlspec = params:lookup_param(props.id).controlspec,
-            state = {
-                params:get(props.id), 
-                params.set, params, props.id,
-            },
-        }
+        local p = params:lookup_param(props.id)
+
+        if p.controlspec then
+            _enc.control{
+                n = props.n,
+                controlspec = p.controlspec,
+                state = {
+                    params:get(props.id), 
+                    params.set, params, props.id,
+                },
+            }
+        elseif p.max then
+            _enc.number{
+                n = props.n, 
+                min = p.min, max = p.max, sensitivity = 1,
+                state = {
+                    params:get(props.id), 
+                    params.set, params, props.id,
+                },
+            }
+        end
     else
         _enc.number{
             n = props.n, max = #mod.sources[props.mod_id], sensitivity = 1,
@@ -45,23 +58,28 @@ local function _ctl(props)
     end
 
     local src = params:get('mod '..props.mod_id)
+
     _screen.list{
         x = e[props.n].x, y = e[props.n].y, margin = 3,
         text = alt==0 and {
             props.name, 
-            string.format('%.2f', params:get(props.id)),
+            string.format(props.quant or '%.2f', params:get(props.id)),
             (src > 1) and '+' or nil,
             (src > 1) and string.format('%.3f', mod.get(props.mod_id)) or nil
         } or {
             props.name,
             mod.sources[props.mod_id][src]
         },
-        levels = { 4, enabled[props.id] and 15 or 4 },
+        levels = { 4, enabled[props.en_id or props.id] and 15 or 4 },
     }
 end
 
 local function _del(props)
-    _ctl{ n = 1, id = 'time '..props.del, mod_id = 'time '..props.del, name = 'time', }
+    _ctl{ 
+        name = 'time', n = 1, 
+        quant = (params:get('time '..props.del..' quant') == OCT) and '%d' or nil,
+        id = set.get_id_volts(props.del), mod_id = 'time '..props.del, en_id = 'time '..props.del,
+    }
     _ctl{ n = 2, id = 'time lag '..props.del, mod_id = 'time lag '..props.del, name = 'lag', }
     _ctl{ n = 3, id = 'fb_level_'..props.del, mod_id = 'feedback '..props.del, name = 'fb' }
     -- _ctl{ n = 3, id = 'out_level_'..props.del, mod_id = 'output '..props.del, name = 'out' }

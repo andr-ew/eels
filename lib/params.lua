@@ -43,7 +43,7 @@ do
 
     for i,del in ipairs{ 'a', 'b' } do
         params:add{
-            id = 'time '..del, type = 'control', 
+            id = 'time free '..del, type = 'control', name = 'time a',
             action = function() 
                 set.times()
                 set.feedbacks()
@@ -52,6 +52,33 @@ do
                 min = 0, max = 6, default = ({ 2, 0.01 })[i],
                 units = 'v/oct', quantum = 1/100/6, step = 0.01,
             }
+        }
+        params:add{
+            id = 'time oct '..del, type = 'number', name = 'time a',
+            action = function() 
+                set.times()
+                set.feedbacks()
+            end,
+            min = 0, max = 6, default = ({ 2, 0 })[i],
+            formatter = function(p) return (p:get().." v/oct") end
+        }
+    end
+    for i,del in ipairs{ 'a', 'b' } do
+        params:add{
+            id = 'time '..del..' quant', type = 'option',
+            options = quants,
+            action = function(v) 
+                if v == FREE then
+                    params:show('time free '..del)
+                    params:hide('time oct '..del)
+                elseif v == OCT then
+                    params:hide('time free '..del)
+                    params:show('time oct '..del)
+                end
+                
+                set.times()
+                set.feedbacks()
+            end,
         }
     end
     for i,del in ipairs{ 'a', 'b' } do
