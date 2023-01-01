@@ -99,4 +99,4 @@ set the modulation source for each modulatable param:
 
 ### lfo
 
-set the parameters of the internal lfo. see [`lib/lfo`](https://monome.org/docs/norns/reference/lib/lfo) for more info.
+the parameters of the internal lfo. see [`lib/lfo`](https://monome.org/docs/norns/reference/lib/lfo) for further info.
