@@ -42,15 +42,15 @@ dual digital delay / comb filter with a variety of i/o modes and modulation opti
 
 ## params
 
-detailed description for each param below. note that many params use eurorack-native voltage units for pairity with crow (though eels is still designed to work well as standalone effect).
+detailed description for each param below. note that many params use eurorack-native voltage units for pairity with crow input modulation, though eels is still designed to work well as standalone effect.
 
 ### modes
 
 - **i/o**
-    - **coupled**: **B** controls coupled with **A**, but **time b** is the sum of the **A** & **B** controls.
+    - **coupled**: all **B** controls are coupled with **A**, but **time b** is the sum of the **A** & **B** values.
     - **decoupled**: separate **A** & **B** controls.
     - **series**: decoupled controls, **A** delay routed into **B**.
-    - **ping-pong**: **B** controls coupled with **A**, ping-pong feedback between delays.
+    - **ping-pong**: all **B** controls coupled with **A**, ping-pong feedback between delays.
     - **send/return**: **A** delay only (left channel), external feedback loop (right channel). **for best results, be sure to zero out the system monitor level.**
         - input L: dry signal
         - output L: wet signal
@@ -81,3 +81,22 @@ detailed description for each param below. note that many params use eurorack-na
 - **fine**: fine tune the time value in semitones. adjusts the musical key when sequencing the comb filter pitch via crow. no need to adjust when sequencing over midi.
 - **root**: set the concert pitch frequency for **time**.
 
+### levels
+
+- **feedback a** & **feedback b**: set the feedback level of the delay, or the decay time of the comb filter.
+- **input a** & **input b**: audio input level
+- **output a** & **output b**: audio output level
+
+### modulation
+
+set the modulation source for each modulatable param:
+
+- **none**
+- **lfo**: internal LFO.
+- **crow in 1** & **crow in 2**: voltage from crow.
+- **midi**: midi note value, converted to volt/octave.
+- **clock**: an offset that will sync **time = 0** with the global clock tempo in delay mode. positive whole voltages will be multiples of the clock, negative whole number voltages will be divisions of the clock.
+
+### lfo
+
+set the parameters of the internal lfo. see [`lib/lfo`](https://monome.org/docs/norns/reference/lib/lfo) for more info.
