@@ -63,7 +63,7 @@ detailed description for each param below. note that many params use eurorack-na
 
 ### time
 
-- **time a** & **time b**: set the _delay time / comb filter resonant frequency_ as a volt/octave transponsition from the **root** & **fine** values. reference the table below for the actual value of each volt, assuming **fine = A** and **root = 440hz**.
+- **time a** & **time b**: set the _delay time / comb filter resonant frequency_ in volts/octave. reference the table below for the actual value of each volt (assuming **fine = A** and **root = 440hz**).
 
     | volt   | **range = delay**   | **range = comb** |
     | ------ | ------------------- | -----------    |
