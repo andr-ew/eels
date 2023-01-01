@@ -75,7 +75,7 @@ detailed description for each param below. note that many params use eurorack-na
     | 5      | 0.14 seconds        | 3520 hz        |
     | 6      | 0.07 seconds        | 7040 hz        |
     
-    **NOTE**: **ping-pong** & **send/return** modes do not track v/oct correctly
+    **NOTE**: in comb range, **ping-pong** & **send/return** modes do not track v/oct correctly
     
 - **time a quant** & **time b quant**
     - **free**: continuous control over **time**.
