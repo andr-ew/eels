@@ -52,8 +52,8 @@ detailed description for each param below. note that many params use eurorack-na
     - **series**: decoupled controls, **A** delay routed into **B**.
     - **ping-pong**: all **B** controls coupled with **A**, ping-pong feedback between delays.
     - **send/return**: **A** delay only (left channel), external feedback loop (right channel). **for best results, be sure to zero out the system monitor level.**
-        - input L: dry signal
-        - output L: wet signal
+        - input L: dry signal, patch from input or mixer send
+        - output L: wet signal, patch to mixer
         - output R: patch to the input of external effect (such as a filter)
         - input R: patch in from the output of external effect
 - **range a** & **range b**
