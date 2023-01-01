@@ -98,7 +98,7 @@ set the modulation source for each modulatable param:
 - **lfo**: internal LFO.
 - **crow in 1** & **crow in 2**: voltage from crow.
 - **midi**: midi note value, converted to volt/octave.
-- **clock**: an offset that will sync **time = 0** with the global clock tempo in delay mode. positive whole voltages will be multiples of the clock, negative whole number voltages will be divisions of the clock.
+- **clock**: an offset that will sync **time = 0** with the global clock tempo in delay mode. positive whole number voltages will be multiples of the clock, negative whole number voltages will be divisions of the clock.
 
 ### lfo
 
