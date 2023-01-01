@@ -80,7 +80,7 @@ detailed description for each param below. note that many params use eurorack-na
 - **time a quant** & **time b quant**
     - **free**: continuous control over **time**.
     - **oct**: **time** is quantized to whole numbers. this turns **time** into an octave control in comb range, or a clock multiplier/divider in delay range with clock modulation
-- **time lag a** & **time lag b**: set the lag/slew time for **time**. set to 0 for instantaneous changes (clicky), set > 0 for smoothed encoder movements or portamento when sequencing comb filter pitch.
+- **time lag a** & **time lag b**: set the lag/slew value for **time**. set to 0 for instantaneous changes (clicky), set > 0 for smoothed encoder movements or portamento when sequencing comb filter pitch.
 - **fine**: fine tune the time value in semitones. adjusts the musical key when sequencing the comb filter pitch via crow. no need to adjust when sequencing over midi.
 - **root**: set the concert pitch frequency for **time**.
 
