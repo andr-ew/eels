@@ -175,10 +175,10 @@ function set.in_amps(arc_silent)
     elseif mode == PINGPONG then
         enabled['in_level_a'] = true
         enabled['in_level_b'] = true
-        engine.amp_in_left_a(a)
+        engine.amp_in_left_a(0)
         engine.amp_in_right_a(0)
-        engine.amp_in_left_b(0)
-        engine.amp_in_right_b(b)
+        engine.amp_in_left_b(a)
+        engine.amp_in_right_b(0)
     elseif mode == SENDRETURN then
         enabled['in_level_a'] = true
         enabled['in_level_b'] = false
@@ -283,7 +283,7 @@ function set.feedbacks(arc_silent)
         engine.decay_a_a(a_decay)
         engine.amp_b_a(0)
         -- engine.amp_a_b(out_a)
-        engine.decay_b_b(a_decay)
+        engine.decay_b_b(b_decay)
     elseif mode == PINGPONG then
         enabled['fb_level_a'] = true
         enabled['fb_level_b'] = false
@@ -336,11 +336,18 @@ function set.out_amps(arc_silent)
     elseif mode == SENDRETURN then
         enabled['out_level_a'] = true
         enabled['out_level_b'] = true
-        engine.amp_out_left_a(a)
+        engine.amp_out_left_a(0)
         engine.amp_out_right_a(1)
         engine.amp_out_left_b(0)
         engine.amp_out_right_b(0)
     end
+
+    if mode == SENDRETURN then
+        engine.amp_passthrough_right_left(a)
+    else
+        engine.amp_passthrough_right_left(0)
+    end
+
 end
 
 return set

@@ -23,11 +23,11 @@ Eels {
             var inA = Mix.ar(
                 extIn * [\amp_in_left_a.kr(1), \amp_in_right_a.kr(1)]
             )
-            + (localIn[0] *  \amp_b_a.kr(0));
+            + (localIn[1] *  \amp_b_a.kr(0));
             var inB = Mix.ar(
                 extIn * [\amp_in_left_b.kr(1), \amp_in_right_b.kr(1)]
             )
-            + (localIn[1] * \amp_a_b.kr(0));
+            + (localIn[0] * \amp_a_b.kr(0));
 
             var timeA = \time_a.kr(0.2, \time_lag_a.kr(3));
             var timeB = \time_b.kr(0.2, \time_lag_b.kr(3));
@@ -37,10 +37,18 @@ Eels {
 
             var outA = delA!2 * [\amp_out_left_a.kr(1), \amp_out_right_a.kr(0)];
             var outB = delB!2 * [\amp_out_left_b.kr(0), \amp_out_right_b.kr(1)];
+            var passThrough = [
+                Mix.ar(
+                    extIn * [\amp_passthrough_left_left.kr(0), \amp_passthrough_right_left.kr(0)]
+                ),
+                Mix.ar(
+                    extIn * [\amp_passthrough_left_right.kr(0), \amp_passthrough_right_right.kr(0)]
+                )
+            ];
 
             LocalOut.ar([delA, delB]);
 
-            Out.ar(\outBus.kr(0), outA + outB);
+            Out.ar(\outBus.kr(0), outA + outB + passThrough);
         }).add;
 
         //make list of commands from NamedControls
