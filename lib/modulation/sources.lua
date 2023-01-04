@@ -38,4 +38,35 @@ function src.clock.start()
     return c
 end
 
+src.crow = {}
+
+-- src: https://github.com/monome/norns/blob/e8ae36069937df037e1893101e73bbdba2d8a3db/lua/core/crow.lua#L14
+local function re_enable_clock_source_crow()
+    if params.lookup["clock_source"] then
+        if params:string("clock_source") == "crow" then
+            norns.crow.clock_enable()
+        end
+    end
+end
+
+function src.crow.update()
+    local mapped = { false, false }
+
+    for _,dest in ipairs(mod.destinations) do
+        local sources = mod.sources[dest]
+        local source = params:get('mod '..dest)
+    
+        if source == tab.key(sources, 'crow in 1') then mapped[1] = true
+        elseif source == tab.key(sources, 'crow in 2') then mapped[2] = true end
+    end
+    
+    for i, map in ipairs(mapped) do if map then
+        crow.input[i].mode('stream', 0.001)
+        crow.input[i].stream = function(v)
+            mod.set('crow in '..i, v)
+        end
+    end end
+    if not mapped[1] then re_enable_clock_source_crow() end
+end
+
 return src

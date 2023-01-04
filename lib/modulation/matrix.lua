@@ -5,14 +5,16 @@ mod.sources = {}
 mod.values = {}
 mod.actions = {}
 
-function mod.params()
+function mod.params(action)
     params:add_separator('modulation')
 
     for _,dest in ipairs(mod.destinations) do
         params:add{
             name = dest, id = 'mod '..dest, type = 'option', 
             options = mod.sources[dest],
-            action = function() crops.dirty.screen = true end
+            action = function(v)
+                action(dest, v)
+            end
         }
     end
 end

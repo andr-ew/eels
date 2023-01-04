@@ -114,7 +114,7 @@ function init()
     params:set('lfo_max_lfo', 0.5)
     params:set('lfo_lfo', 2)
 
-    -- params:read()
+    params:read()
     
     src.lfo:start()
     src.clock.start()
@@ -123,5 +123,5 @@ function init()
 end
 
 function cleanup()
-    -- params:write()
+    params:write()
 end

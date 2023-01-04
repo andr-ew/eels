@@ -152,7 +152,14 @@ do
 end
 
 --add destination params
-mod.params()
+do
+    local function action(dest, v)
+        src.crow.update()
+        crops.dirty.screen = true 
+    end
+
+    mod.params(action)
+end
 
 --add LFO params
 params:add_separator('lfo')
