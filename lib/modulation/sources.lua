@@ -31,7 +31,7 @@ function src.clock.start()
     local c = clock.run(function()
         while true do
             mod.set('clock', set.time_seconds_volt(clock:get_beat_sec(), DELAY))
-            clock.sync(1/96)
+            clock.sync(1/16)
         end
     end)
 

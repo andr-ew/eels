@@ -6,7 +6,7 @@ local function _ctl(props)
         if crops.device == 'arc' then
             local n, d = table.unpack(crops.args)
 
-            params:delta(props.id, d>0 and 1 or -1)
+            if n == props.n then params:delta(props.id, d>0 and 1 or -1) end
         end
     else
         _arc.control{
