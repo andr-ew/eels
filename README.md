@@ -119,4 +119,4 @@ run:
 chmod +x build.sh
 ./build.sh
 ```
-this creates a maiden-compatible .zip file (maiden seems to have trouble dealing with git submodules)
+this creates a maiden-compatible .zip file in `/build` (maiden seems to have trouble dealing with git submodules)
