@@ -1,4 +1,4 @@
-# eels (WIP)
+# eels (beta)
 
 dual digital delay / comb filter with a variety of i/o modes and modulation options
 
