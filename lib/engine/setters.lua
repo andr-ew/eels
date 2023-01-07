@@ -313,9 +313,6 @@ function set.out_amps(arc_silent)
     local pan_left_a, pan_right_a = 1, 1 - width
     local pan_left_b, pan_right_b = 1 - width, 1
 
-    print('a', pan_left_a, pan_right_a)
-    print('b', pan_left_b, pan_right_b)
-
     if mode == COUPLED or mode == PINGPONG then
         enabled['out_level_a'] = true
         enabled['out_level_b'] = false

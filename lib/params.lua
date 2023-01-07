@@ -87,7 +87,7 @@ do
             id = 'time lag '..del, type = 'control', action = set.time_lags,
             controlspec = cs.def{
                 min = 0, max = 5, default = 3,
-                units = 'v', quantum = 1/100/5,
+                units = 'v',
             }
         }
     end
@@ -168,3 +168,33 @@ end
 --add LFO params
 params:add_separator('lfo')
 src.lfo:add_params('lfo')
+
+--add pset params
+do
+    params:add_separator('pset')
+
+    params:add{
+        id = 'reset all params', type = 'binary', behavior = 'trigger',
+        action = function()
+            for _,p in ipairs(params.params) do if p.save then
+                params:set(p.id, p.default or (p.controlspec and p.controlspec.default) or 0, true)
+            end end
+    
+            src.lfo.reset_params()
+
+            params:bang()
+        end
+    }
+    params:add{
+        id = 'overwrite default pset', type = 'binary', behavior = 'trigger',
+        action = function()
+            params:write()
+        end
+    }
+    params:add{
+        id = 'autosave pset', type = 'option', options = { 'yes', 'no' },
+        action = function()
+            params:write()
+        end
+    }
+end

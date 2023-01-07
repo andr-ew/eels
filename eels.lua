@@ -111,10 +111,7 @@ crops.connect_screen(_app.norns)
 engine.name = 'Eels'
 
 function init()
-    params:set('mod time a', tab.key(mod.sources['time a'], 'lfo'))
-    params:set('lfo_mode_lfo', 2)
-    params:set('lfo_max_lfo', 0.5)
-    params:set('lfo_lfo', 2)
+    src.lfo.reset_params()
 
     params:read()
     
@@ -125,5 +122,5 @@ function init()
 end
 
 function cleanup()
-    params:write()
+    if params:string('autosave pset') == 'yes' then params:write() end
 end

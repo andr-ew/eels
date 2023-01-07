@@ -25,6 +25,13 @@ src.lfo = lfos:add{
     action = function(scaled) mod.set('lfo', scaled) end,
 }
 
+src.lfo.reset_params = function()
+    params:set('mod time a', tab.key(mod.sources['time a'], 'lfo'))
+    params:set('lfo_mode_lfo', 2)
+    params:set('lfo_max_lfo', 0.5)
+    params:set('lfo_lfo', 2)
+end
+
 src.clock = {}
 
 function src.clock.start()
