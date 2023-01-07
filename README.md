@@ -1,4 +1,4 @@
-# eels (WIP)
+# eels (beta)
 
 dual digital delay / comb filter with a variety of i/o modes and modulation options
 
@@ -90,6 +90,7 @@ detailed description for each param below. note that many params use eurorack-na
 - **feedback a** & **feedback b**: set the feedback level of the delay, or the decay time of the comb filter.
 - **input a** & **input b**: audio input level
 - **output a** & **output b**: audio output level
+- **stereo width**: set the output stereo separation between **A** & **B**.
 
 ### modulation
 
@@ -104,3 +105,9 @@ set the modulation source for each modulatable param:
 ### lfo
 
 the parameters of the internal lfo. see [`lib/lfo`](https://monome.org/docs/norns/reference/lib/lfo#lfo-attributes--defaults) for further info.
+
+### pset
+
+- **reset all params**: reset all params to default values
+- **overwrite default pset**: when **autosave** is disabled, sets the current state as the default state when starting the script.
+- **autosave pset**: disables saving the pset to the default slot when exiting the script. when enabled, settings will persist between sessions.
