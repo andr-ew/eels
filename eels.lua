@@ -37,6 +37,8 @@ FREE, OCT = 1, 2
 
 a = arc.connect()
 
+a.add = function() crops.arc.dirty = true end
+
 enabled = {}
 
 --script lib files
