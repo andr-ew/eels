@@ -15,7 +15,9 @@ dual digital delay / comb filter with a variety of i/o modes and modulation opti
 
 ## install
 
-~ not done yet ~
+```
+;install https://github.com/andr-ew/ndls/releases/download/v0.1-beta/complete-source-code.zip
+```
 
 ## norns
 
