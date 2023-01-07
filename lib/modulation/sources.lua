@@ -69,4 +69,6 @@ function src.crow.update()
     if not mapped[1] then re_enable_clock_source_crow() end
 end
 
+norns.crow.add = src.crow.update
+
 return src
