@@ -148,7 +148,11 @@ do
             controlspec = cs_lvl, action = set.out_amps,
         }
     end
-    --TODO: width
+    params:add{
+        name = 'stereo width', id = 'width', type = 'control',
+        controlspec = cs.def{ min = 0, max = 100, default = 100, units = '%' },
+        action = set.out_amps,
+    }
 end
 
 --add destination params

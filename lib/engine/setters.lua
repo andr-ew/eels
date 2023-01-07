@@ -309,28 +309,34 @@ function set.out_amps(arc_silent)
 
     local a = get_amp('out_level_a', 'output a')
     local b = get_amp('out_level_b', 'output b')
+    local width = params:get('width') / 100
+    local pan_left_a, pan_right_a = 1, 1 - width
+    local pan_left_b, pan_right_b = 1 - width, 1
+
+    print('a', pan_left_a, pan_right_a)
+    print('b', pan_left_b, pan_right_b)
 
     if mode == COUPLED or mode == PINGPONG then
         enabled['out_level_a'] = true
         enabled['out_level_b'] = false
-        engine.amp_out_left_a(a)
-        engine.amp_out_right_a(0)
-        engine.amp_out_left_b(0)
-        engine.amp_out_right_b(a)
+        engine.amp_out_left_a(a * pan_left_a)
+        engine.amp_out_right_a(a * pan_right_a)
+        engine.amp_out_left_b(a * pan_left_b)
+        engine.amp_out_right_b(a * pan_right_b)
     elseif mode == DECOUPLED then
         enabled['out_level_a'] = true
         enabled['out_level_b'] = true
-        engine.amp_out_left_a(a)
-        engine.amp_out_right_a(0)
-        engine.amp_out_left_b(0)
-        engine.amp_out_right_b(b)
+        engine.amp_out_left_a(a * pan_left_a)
+        engine.amp_out_right_a(a * pan_right_a)
+        engine.amp_out_left_b(b * pan_left_b)
+        engine.amp_out_right_b(b * pan_right_b)
     elseif mode == SERIES then
         enabled['out_level_a'] = true
         enabled['out_level_b'] = true
-        engine.amp_out_left_a(a)
-        engine.amp_out_right_a(0)
-        engine.amp_out_left_b(0)
-        engine.amp_out_right_b(b)
+        engine.amp_out_left_a(a * pan_left_a)
+        engine.amp_out_right_a(a * pan_right_a)
+        engine.amp_out_left_b(b * pan_left_b)
+        engine.amp_out_right_b(b * pan_right_b)
 
         engine.amp_a_b(a)
     elseif mode == SENDRETURN then
@@ -347,7 +353,6 @@ function set.out_amps(arc_silent)
     else
         engine.amp_passthrough_right_left(0)
     end
-
 end
 
 return set
