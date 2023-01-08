@@ -47,7 +47,7 @@ detailed description for each param below. note that many params use eurorack-na
 ### modes
 
 - **i/o**
-    - **coupled**: all **B** controls are coupled with **A**, but **time b** is the sum of the **A** & **B** values.
+    - **coupled**: all **B** controls are coupled with **A**, but **time b** is the sum of the **A** & **B** voltage values.
     - **decoupled**: separate **A** & **B** controls.
     - **series**: decoupled controls, **A** delay routed into **B**.
     - **ping-pong**: all **B** controls coupled with **A**, ping-pong feedback between delays.
