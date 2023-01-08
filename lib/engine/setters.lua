@@ -64,7 +64,7 @@ local function get_feedback_decay(time, del)
     end
 end
 
-local mults = { [DELAY] = 2^11, [COMB] = 2^2 }
+local mults = { [DELAY] = 2^9, [COMB] = 2^0 }
 
 local function time_volt_seconds(volt, range)
     local hz = params:get('root')
