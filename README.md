@@ -67,14 +67,14 @@ detailed description for each param below. note that many params use eurorack-na
 - **time a** & **time b**: set the _delay time / comb filter resonant frequency_ in volts/octave. reference the table below for the actual value of each volt (assuming **fine = A** and **root = 440hz**).
 
     | volt   | **range = delay**   | **range = comb** |
-    | ------ | ------------------- | -----------    |
-    | 0      | 4.65 seconds        | 110 hz         |
-    | 1      | 2.32 seconds        | 220 hz         |
-    | 2      | 1.16 seconds        | 440 hz         |
-    | 3      | 0.58 seconds        | 880 hz         |
-    | 4      | 0.29 seconds        | 1760 hz        |
-    | 5      | 0.14 seconds        | 3520 hz        |
-    | 6      | 0.07 seconds        | 7040 hz        |
+    | ------ | ------------------- | -----------      |
+    | -2     | 4.65 seconds        | 110 hz           |
+    | -1     | 2.32 seconds        | 220 hz           |
+    | 0      | 1.16 seconds        | 440 hz           |
+    | 1      | 0.58 seconds        | 880 hz           |
+    | 2      | 0.29 seconds        | 1760 hz          |
+    | 3      | 0.14 seconds        | 3520 hz          |
+    | 4      | 0.07 seconds        | 7040 hz          |
     
     **NOTE**: in comb range, **ping-pong** & **send/return** modes do not track v/oct correctly
     
