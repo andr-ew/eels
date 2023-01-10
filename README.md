@@ -21,6 +21,7 @@ currently in beta - any & all feedback is highly appreciated! feel free to creat
 ## install
 
 ```
+https://github.com/andr-ew/eels/releases/download/v0.1-beta/complete-source-code.zip
 ```
 
 ## norns
