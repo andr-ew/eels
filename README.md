@@ -21,7 +21,6 @@ currently in beta - any & all feedback is highly appreciated! feel free to creat
 ## install
 
 ```
-;install https://github.com/andr-ew/ndls/releases/download/v0.1-beta/complete-source-code.zip
 ```
 
 ## norns
