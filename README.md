@@ -67,7 +67,7 @@ detailed description for each param below. note that many params use eurorack-na
 - **range a** & **range b**
     - **delay**: use delay range for **time** (4.65s - 0.07s).
     - **comb**: use comb filter range for **time** (110hz - 7040hz).
-- **input**: mono or stereo audio input. only effects **coupled**, **decoupled**, and **series** modes.
+- **input**: mono or stereo audio input. only affects **coupled**, **decoupled**, and **series** modes.
 
 ### time
 
