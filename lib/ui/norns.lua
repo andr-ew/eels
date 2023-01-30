@@ -1,15 +1,4 @@
-local x,y = {}, {}
-
-local mar = { left = 2, top = 7, right = 2, bottom = 0 }
-local w = 128 - mar.left - mar.right
-local h = 64 - mar.top - mar.bottom
-
-x[1] = mar.left
-x[2] = 128/2
-y[1] = mar.top
-y[2] = mar.top + h*(1.5/8)
-y[3] = mar.top + h*(5.5/8)
-y[4] = mar.top + h*(7/8)
+local x, y = ui.x, ui.y
 
 local e = {
     { x = x[1], y = y[1] },
@@ -80,7 +69,7 @@ local function Param()
                 props.name,
                 mod.sources[props.mod_id][src]
             },
-            levels = { 4, enabled[props.en_id or props.id] and 15 or 4 },
+            levels = { 4, ui.enabled[props.en_id or props.id] and 15 or 4 },
         }
     end
 end
@@ -112,7 +101,7 @@ local function Del()
         _screen.list{
             x = k[3].x, y = k[3].y,
             text = ranges, focus = params:get('range '..props.del),
-            levels = { 4, enabled['time '..props.del] and 15 or 4 },
+            levels = { 4, ui.enabled['time '..props.del] and 15 or 4 },
         }
     end
 end
@@ -186,6 +175,8 @@ local function Norns()
     local _a, _b = Del(), Del()
     local _mod = Mod()
 
+    local _gfx = Gfx()
+
     return function()
         _key.integer{
             n_next = 2, min = 1, max = 3,
@@ -203,6 +194,8 @@ local function Norns()
         if tab == A then _a{ del = 'a' }
         elseif tab == B then _b{ del = 'b' }
         elseif tab == M then _mod{} end
+
+        _gfx()
     end
 end
 

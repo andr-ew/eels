@@ -39,7 +39,25 @@ a = arc.connect()
 
 arc.add = function() crops.dirty.arc = true end
 
-enabled = {}
+ui = {
+    enabled = {},
+    out_amps = { a = 0, b = 0 },
+    time = { a = 0, b = 0 },
+    set_time = function(del, t) end,
+    x = {},
+    y = {},
+}
+
+local mar = { left = 2, top = 7, right = 2, bottom = 0 }
+local w = 128 - mar.left - mar.right
+local h = 64 - mar.top - mar.bottom
+
+ui.x[1] = mar.left
+ui.x[2] = 128/2
+ui.y[1] = mar.top
+ui.y[2] = mar.top + h*(1.5/8)
+ui.y[3] = mar.top + h*(5.5/8)
+ui.y[4] = mar.top + h*(7/8)
 
 --script lib files
 
@@ -93,6 +111,7 @@ mod.actions = {
 --script lib files
 
 include 'lib/params'                          --add params
+Gfx = include 'lib/ui/graphics'               --screen graphics component
 App = {}
 App.norns = include 'lib/ui/norns'            --norns UI component
 App.arc = include 'lib/ui/arc'                --arc UI component
@@ -104,7 +123,7 @@ _app = { norns = App.norns(), arc = App.arc() }
 crops.connect_arc(_app.arc, a)
 crops.connect_enc(_app.norns)
 crops.connect_key(_app.norns)
-crops.connect_screen(_app.norns)
+crops.connect_screen(_app.norns, 60)
 
 --norns globals
 

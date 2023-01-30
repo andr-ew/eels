@@ -47,7 +47,7 @@ local function Time()
                 else a:led(props.n, x+1, 4) end
             end
         end
-        if enabled['time '..props.del] then
+        if ui.enabled['time '..props.del] then
             _time{
                 n = props.n, id = set.get_id_volts(props.del), levels = { 0, 0, 15 }, 
                 sensitivity = 1, x = { min, max }, spec = spec,
@@ -63,7 +63,7 @@ local function Feedback()
         local id = 'fb_level_'..props.del
         _fb{
             n = props.n, id = id,
-            levels = { 0, 4, enabled[id] and 15 or 4 }
+            levels = { 0, 4, ui.enabled[id] and 15 or 4 }
         }
     end
 end

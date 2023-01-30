@@ -22,7 +22,9 @@ src.lfo = lfos:add{
     depth = 0.1,
     mode = 'free',
     period = 0.25,
-    action = function(scaled) mod.set('lfo', scaled) end,
+    action = function(scaled, raw) 
+        mod.set('lfo', scaled) 
+    end,
 }
 
 src.lfo.reset_params = function()
