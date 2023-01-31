@@ -1,7 +1,7 @@
 local v = { a = 0, b = 0 }
 local x = { a = 0, b = 0 }
 
-local delta_x = -15
+local delta_x = -10
 local spring = 20
 local damp = 5
 local mass = 0.4
@@ -64,9 +64,8 @@ local function Eel()
 
             screen.level(math.floor(ui.out_amps[del] * 10))
 
-            local length = width
+            local length = math.ceil(util.clamp(width - (math.abs(height) * 10), 1, width))
             local humps = 2
-
 
             for j = 1, length do
                 local amp = (
