@@ -27,7 +27,6 @@ clock.run(function()
 
         for _,e in ipairs{ 'a', 'b' } do
             do
-                -- local range = params:get('range '..e)
                 local secs = ui.time[e]
                 local range = (secs <= ui.time_range[COMB][1]) and COMB or DELAY
                 local rate = util.expexp(
