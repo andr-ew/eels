@@ -199,21 +199,33 @@ function set.times(arc_silent)
     if mode == COUPLED then
         ui.enabled['time a'] = true
         ui.enabled['time b'] = true
+        ui.set_time('a', a)
+        ui.set_time('b', a + b)
+
         engine.time_a(a)
         engine.time_b(get_time_seconds('sum'))
     elseif mode == DECOUPLED or mode == SERIES then
         ui.enabled['time a'] = true
         ui.enabled['time b'] = true
+        ui.set_time('a', a)
+        ui.set_time('b', b)
+
         engine.time_a(a)
         engine.time_b(b)
     elseif mode == PINGPONG then
         ui.enabled['time a'] = true
         ui.enabled['time b'] = false
+        ui.set_time('a', a)
+        ui.set_time('b', a)
+
         engine.time_a(a)
         engine.time_b(a)
     elseif mode == SENDRETURN then
         ui.enabled['time a'] = true
         ui.enabled['time b'] = false
+        ui.set_time('a', a)
+        ui.set_time('b', 0)
+
         engine.time_a(a)
         engine.time_b(a)
     end
