@@ -52,9 +52,9 @@ end)
 local function Eel()
     return function(props)
         if crops.device == 'screen' and crops.mode == 'redraw' then
-            local width = 40
+            local width = 45
             local lowamp = 0.4
-            local highamp = 3 + (params:get('lfo_depth_lfo') / 10)
+            local highamp = 2.7 + (params:get('lfo_depth_lfo') / 10)
 
             local del = props.del
             local left = props.x
@@ -62,10 +62,8 @@ local function Eel()
             local ph_off = props.phase
             local height = props.swim_y
 
-            screen.level(math.floor(ui.out_amps[del] * 10))
-
             local length = math.ceil(util.clamp(width - (math.abs(height) * 10), 1, width))
-            local humps = 2
+            local humps = params:string('range '..del) == 'comb' and 3 or 2
 
             for j = 1, length do
                 local amp = (
@@ -87,9 +85,18 @@ local function Eel()
                     1 + (math.abs(height) * ((j / length) + 0.1))
                 )
                
+                screen.level(math.floor(ui.out_amps[del] * 10))
                 screen.pixel(left + j - 1, top + amp)
+                screen.fill()
+
+                local lvl = math.floor(ui.out_amps[del] * 10)
+                lvl = math.ceil(j > (length - 8) and lvl or lvl/4)
+                lvl = j == (length - 2) and 1 or lvl
+
+                screen.level(lvl)
+                screen.pixel(left + j - 1, top + amp - 1)
+                screen.fill()
             end
-            screen.fill()
         end
     end
 end
@@ -102,7 +109,7 @@ local function Gfx()
         local y = 25
             
         _eelA{ del = 'a', x = ui.x[1], y = y, phase = 0, swim_y = x.a }
-        _eelB{ del = 'a', x = ui.x[2], y = y, phase = 0.5, swim_y = x.b }
+        _eelB{ del = 'b', x = ui.x[2], y = y, phase = 0.5, swim_y = x.b }
     end
 end
 
