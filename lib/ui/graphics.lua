@@ -1,5 +1,6 @@
 local v = { a = 0, b = 0 }
 local x = { a = 0, b = 0 }
+local phase = { a = 0, b = 0 }
 
 local delta_x = -10
 local spring = 20
@@ -18,7 +19,6 @@ function ui.set_time(del, t)
     ui.time[del] = new
 end
 
-local phase = 0
 local fps = 60
 
 --TODO: lfo only effects eels when mapped
@@ -27,21 +27,25 @@ clock.run(function()
     while true do
         local step = 1/fps
 
-        do
-            local period = params:get('lfo_free_lfo') * 2
-            phase = phase + (step * (1/period))
-            while phase > 1 do phase = phase - 1 end
-        end
-
-        --src: https://www.khanacademy.org/computing/pixar/simulation/hair-simulation-code/pi/step-3-damped-spring-mass-system
         for _,e in ipairs{ 'a', 'b' } do
-            local f_spring = -1 * spring * x[e]
-            local f_damp = damp * v[e]
-            local f = f_spring + mass * (0 - f_damp)
-            local a = f / mass
+            do
+                local volts = params:get(set.get_id_volts(e))
+                local rate = util.linexp(
+                    -2, 4, 1/8, 2, volts
+                )
+                phase[e] = phase[e] + (step * rate)
+                while phase[e] > 1 do phase[e] = phase[e] - 1 end
+            end
+            do
+                --src: https://www.khanacademy.org/computing/pixar/simulation/hair-simulation-code/pi/step-3-damped-spring-mass-system
+                local f_spring = -1 * spring * x[e]
+                local f_damp = damp * v[e]
+                local f = f_spring + mass * (0 - f_damp)
+                local a = f / mass
 
-            v[e] = v[e] + a*step
-            x[e] = x[e] + v[e]*step*2
+                v[e] = v[e] + a*step
+                x[e] = x[e] + v[e]*step*2
+            end
         end
 
         crops.dirty.screen = true
@@ -52,15 +56,17 @@ end)
 local function Eel()
     return function(props)
         if crops.device == 'screen' and crops.mode == 'redraw' then
-            local width = 45
-            local lowamp = 0.4
-            local highamp = 2.7 + (params:get('lfo_depth_lfo') / 10)
-
             local del = props.del
             local left = props.x
             local top = props.y
             local ph_off = props.phase
             local height = props.swim_y
+
+            local width = 45
+            local lowamp = 0.4
+            local highamp = util.linlin(
+                -5, 5, -7, 7, params:get('fb_level_'..del)
+            )
 
             local length = math.ceil(util.clamp(width - (math.abs(height) * 10), 1, width))
             local humps = params:string('range '..del) == 'comb' and 3 or 2
@@ -69,7 +75,7 @@ local function Eel()
                 local amp = (
                     math.sin(
                         (
-                            (phase + ph_off)*humps + j/length
+                            (phase[del] + ph_off)*humps + j/length
                         )
                         * (humps * 2) * math.pi
                     ) 
