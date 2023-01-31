@@ -42,7 +42,9 @@ arc.add = function() crops.dirty.arc = true end
 ui = {
     enabled = {},
     out_amps = { a = 0, b = 0 },
+    time_range = {},
     time = { a = 0, b = 0 },
+    fb_volt = { a = 0, b = 0 },
     set_time = function(del, t) end,
     x = {},
     y = {},

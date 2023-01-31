@@ -46,9 +46,9 @@ local function get_feedback_amp(time, del)
     if range == COMB then
         local decay = volt_decay(volt)
         local amp = decay_amp(time, decay)
-        return amp
+        return amp, volt
     elseif range == DELAY then
-        return volt/5
+        return volt/5, volt
     end
 end
 local function get_feedback_decay(time, del)
@@ -58,13 +58,18 @@ local function get_feedback_decay(time, del)
     local volt = params:get(id) + mod.get(mod_id)
 
     if range == COMB then
-        return volt_decay(volt)
+        return volt_decay(volt), volt
     elseif range == DELAY then
-        return amp_decay(time, volt/5)
+        return amp_decay(time, volt/5), volt
     end
 end
 
 local mults = { [DELAY] = 2^9, [COMB] = 2^0 }
+
+ui.time_range = {
+    [DELAY] = { 4.65, 0.07 },
+    [COMB] = { 1/110, 1/7040 },
+}
 
 local function time_volt_seconds(volt, range)
     local hz = params:get('root')
@@ -200,7 +205,7 @@ function set.times(arc_silent)
         ui.enabled['time a'] = true
         ui.enabled['time b'] = true
         ui.set_time('a', a)
-        ui.set_time('b', a + b)
+        ui.set_time('b', get_time_seconds('sum'))
 
         engine.time_a(a)
         engine.time_b(get_time_seconds('sum'))
@@ -267,8 +272,8 @@ function set.feedbacks(arc_silent)
 
     local time_a = get_time_seconds('a')
     local time_b = get_time_seconds('b')
-    local a_amp = get_feedback_amp(time_a, 'a')
-    local b_amp = get_feedback_amp(time_b, 'b')
+    local a_amp, a_volt = get_feedback_amp(time_a, 'a')
+    local b_amp, b_volt = get_feedback_amp(time_b, 'b')
     local a_decay = get_feedback_decay(time_a, 'a')
     local b_decay = get_feedback_decay(time_b, 'b')
 
@@ -278,6 +283,12 @@ function set.feedbacks(arc_silent)
 
         ui.enabled['fb_level_a'] = true
         ui.enabled['fb_level_b'] = false
+        ui.fb_volt.a = a_volt
+        do
+            local _, volt = get_feedback_amp(time_sum, 'a')
+            ui.fb_volt.b = volt
+        end
+
         engine.decay_a_a(a_decay)
         engine.amp_b_a(0)
         engine.amp_a_b(0)
@@ -285,6 +296,9 @@ function set.feedbacks(arc_silent)
     elseif mode == DECOUPLED then
         ui.enabled['fb_level_a'] = true
         ui.enabled['fb_level_b'] = true
+        ui.fb_volt.a = a_volt
+        ui.fb_volt.b = b_volt
+
         engine.decay_a_a(a_decay)
         engine.amp_b_a(0)
         engine.amp_a_b(0)
@@ -292,6 +306,9 @@ function set.feedbacks(arc_silent)
     elseif mode == SERIES then
         ui.enabled['fb_level_a'] = true
         ui.enabled['fb_level_b'] = true
+        ui.fb_volt.a = a_volt
+        ui.fb_volt.b = b_volt
+
         engine.decay_a_a(a_decay)
         engine.amp_b_a(0)
         -- engine.amp_a_b(out_a)
@@ -299,6 +316,9 @@ function set.feedbacks(arc_silent)
     elseif mode == PINGPONG then
         ui.enabled['fb_level_a'] = true
         ui.enabled['fb_level_b'] = false
+        ui.fb_volt.a = a_volt
+        ui.fb_volt.b = a_volt
+
         engine.decay_a_a(0)
         engine.amp_b_a(a_amp)
         engine.amp_a_b(a_amp)
@@ -306,6 +326,9 @@ function set.feedbacks(arc_silent)
     elseif mode == SENDRETURN then
         ui.enabled['fb_level_a'] = true
         ui.enabled['fb_level_b'] = false
+        ui.fb_volt.a = a_volt
+        ui.fb_volt.b = 0
+
         engine.decay_a_a(0)
         engine.amp_b_a(0)
         engine.amp_a_b(0)

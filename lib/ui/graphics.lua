@@ -21,17 +21,20 @@ end
 
 local fps = 60
 
---TODO: lfo only effects eels when mapped
-
 clock.run(function() 
     while true do
         local step = 1/fps
 
         for _,e in ipairs{ 'a', 'b' } do
             do
-                local volts = params:get(set.get_id_volts(e))
-                local rate = util.linexp(
-                    -2, 4, 1/8, 2, volts
+                -- local range = params:get('range '..e)
+                local secs = ui.time[e]
+                local range = (secs <= ui.time_range[COMB][1]) and COMB or DELAY
+                local rate = util.expexp(
+                    ui.time_range[range][2], 
+                    ui.time_range[range][1],
+                    2, 1/8,
+                    secs
                 )
                 phase[e] = phase[e] + (step * rate)
                 while phase[e] > 1 do phase[e] = phase[e] - 1 end
@@ -65,11 +68,13 @@ local function Eel()
             local width = 45
             local lowamp = 0.4
             local highamp = util.linlin(
-                -5, 5, -7, 7, params:get('fb_level_'..del)
+                -5, 5, -7, 7, ui.fb_volt[del]
             )
 
             local length = math.ceil(util.clamp(width - (math.abs(height) * 10), 1, width))
-            local humps = params:string('range '..del) == 'comb' and 3 or 2
+
+            local secs = ui.time[del]
+            local humps = (secs <= ui.time_range[COMB][1]) and 3 or 2
 
             for j = 1, length do
                 local amp = (
