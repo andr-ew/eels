@@ -1,6 +1,6 @@
 # eels (beta)
 
-dual digital delay / comb filter with a variety of i/o modes and modulation options.
+dual delay / comb filter with a variety of i/o modes and modulation options.
 
 an undersea cousin of [wrms](https://github.com/andr-ew/wrms).
 
