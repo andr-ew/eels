@@ -39,7 +39,8 @@ currently in beta - any & all feedback is highly appreciated! feel free to creat
 eels is split into three pages – one page for eels **A** & **B**, respectively, and an `M` page for setting the **i/o mode** & some internal modulation settings. on pages `A` & `B`, holding **K1** allows you to set the modulation source for each parameter with the encoders. 
 
 available modulation sources:
-- **lfo**: internal LFO.
+- **lfo 1**: internal LFO.
+- **lfo 2**: internal LFO.
 - **crow in 1** & **crow in 2**: control voltage from crow. **time** tracks v/oct, levels expect 0-5v.
 - **midi**: midi note value, converted to volt/octave.
 - **clock**: an offset that will sync **time = 0** with the global clock tempo in delay mode. positive whole number voltages will be multiples of the clock, negative whole number voltages will be divisions of the clock.
