@@ -36,7 +36,14 @@ currently in beta - any & all feedback is highly appreciated! feel free to creat
 - **K2:** increment page
 - **K1 (hold):** set modulation source
 
-eels is split into three pages – one page for eels **A** & **B**, respectively, and an `M` page for setting the **i/o mode** & some internal modulation settings. on pages `A` & `B`, holding **K1** allows you to set the modulation source for each parameter with the encoders. on page `B`, some parameters may appear greyed-out – this means that those parameters are mapped to the value of eel **A** in accordance to the current **i/o mode**.
+eels is split into three pages – one page for eels **A** & **B**, respectively, and an `M` page for setting the **i/o mode** & some internal modulation settings. on pages `A` & `B`, holding **K1** allows you to set the modulation source for each parameter with the encoders. 
+
+available modulation sources:
+- **lfo**: internal LFO.
+- **crow in 1** & **crow in 2**: control voltage from crow. **time** tracks v/oct, levels expect 0-5v.
+- **midi**: midi note value, converted to volt/octave.
+- **clock**: an offset that will sync **time = 0** with the global clock tempo in delay mode. positive whole number voltages will be multiples of the clock, negative whole number voltages will be divisions of the clock.
+
 
 note that many params use eurorack-native voltage units for pairity with crow input modulation, though eels is still designed to work well as standalone effect.
 
@@ -71,6 +78,8 @@ eels has two internal LFOs, which can be set as modulation sources for parameter
 - **E2:** delay time slew/lag (volts, -5 to +5)
 - **E3:** delay feedback (volts, 0 to +5)
 - **K3:** delay range
+
+on page `B`, some parameters may appear greyed-out – this means that those parameters are mapped to the value of eel **A** in accordance to the current **i/o mode**.
 
 there are two ranges for **time**, which detirmines the audio effect that the eel will be set up to behave like:
 - **delay**: use delay range for **time** (4.65s - 0.07s).
@@ -141,13 +150,7 @@ a few more params can be accessed exclusively in the params menu:
 
 ### modulation
 
-set the modulation source for each modulatable param:
-
-- **none**
-- **lfo**: internal LFO.
-- **crow in 1** & **crow in 2**: control voltage from crow. **time** tracks v/oct, levels expect 0-5v.
-- **midi**: midi note value, converted to volt/octave.
-- **clock**: an offset that will sync **time = 0** with the global clock tempo in delay mode. positive whole number voltages will be multiples of the clock, negative whole number voltages will be divisions of the clock.
+set the modulation source for each modulatable param
 
 ### lfo
 
