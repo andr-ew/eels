@@ -87,7 +87,7 @@ the **comb** range turns eels into a spiky resonant filter.
 - **time** now sets the resonant frequency of the filter
 - **feedback** sets the resonance/decay time of the spectral spikes
 
-the most common use for comb filters is [Karplus–Strong synthesis](https://en.wikipedia.org/wiki/Karplus%E2%80%93Strong_string_synthesis) (though eels is missing the damping lowpass filter). feed bursts of noise into the input of eels to turn it into pitched, string-like plucks. use midi or crow modulation to sequence the resonant frequency & create meloies. it can also be rewarding to feed eels a mixture of noise & musical tones, using the comb filter as a wierd resonant EQ.
+the most common use for comb filters is [Karplus–Strong synthesis](https://en.wikipedia.org/wiki/Karplus%E2%80%93Strong_string_synthesis) (though eels is missing the damping lowpass filter). feed bursts of noise into the input of eels to turn it into pitched, string-like plucks. use midi or crow modulation to sequence the resonant frequency & create meloies. it can also be rewarding to feed eels a mixture of noise & musical tones, using the comb filter as a weird resonant EQ.
 
 **time** is measured in volts/octave. reference the table below for the actual value of each volt (assuming **fine = A** and **root = 440hz**).
 
