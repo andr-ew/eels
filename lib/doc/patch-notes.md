@@ -29,6 +29,8 @@ set the modulation source of **time** to **clock** to sync a delay with norns' g
 
 **time** is animated especially well with stepped modulation slewed with the internal lag, lending the bouncy ball effect as time ramps up or down. coupling feedback to the same mod source ups the anty. with crow connected, send in stepped voltages from a sequencer, keyboard, or sample and hold module. alternatively, you can source modulation from a midi keyboard or an internal lfo with **shape** set to **random** and **lfo min**, **lfo max**, and **lfo depth** increased to add 3-6 volts of range to the output.
 
+**input:** polysynth melody
+
 **key settings**
 - i/o: coupled
 - range a: delay
@@ -44,3 +46,14 @@ set the modulation source of **time** to **clock** to sync a delay with norns' g
 ## 3. electric wolves
 
 comb filters can act like a strange resonant body around a musical input signal, with a multitude of clippy, resonant [wolf tones](https://en.wikipedia.org/wiki/Wolf_tone) throughout the chromatic scale. any noise present at the input contributes to a buzzy drone, whose pitch is controlled by **time**.
+
+**input:** noisy filtered chords with a little bit of attack.
+
+**key settings**
+- i/o: coupled
+- range a: comb
+- time a: 0. adjust to other whole-number values based on the range of the input chords.
+- time b: 0.01
+- feedback a: 4.8. sets decay time of resonant tones.
+- fine: set to the same key as the input chords.
+
