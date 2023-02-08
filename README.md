@@ -139,7 +139,7 @@ a few more params can be accessed exclusively in the params menu:
 
 - **time a quant** & **time b quant**
     - **free**: continuous control over **time**.
-    - **oct**: **time** is quantized to whole numbers. 
+    - **oct**: **time** is quantized to whole numbers. this has different use cases in each range.
       - comb range: **time** becomes an octave control 
       - delay range w/ clock modulation: **time** becomes a clock multiplier/divider. reference the table for multiple/division at each volt:
         | volt   | time in beats       |
