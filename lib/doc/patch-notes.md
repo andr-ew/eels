@@ -45,6 +45,8 @@ set the modulation source of **time** to **clock** to sync a delay with norns' g
 
 ## 3. electric wolves
 
+[video]
+
 comb filters can act like a strange resonant body around a musical input signal, with a multitude of clippy, resonant [wolf tones](https://en.wikipedia.org/wiki/Wolf_tone) throughout the chromatic scale. any noise present at the input contributes to a buzzy drone, whose pitch is controlled by **time**.
 
 **input:** noisy filtered chords with a little bit of attack.
