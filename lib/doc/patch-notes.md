@@ -54,7 +54,8 @@ comb filters can act like a strange resonant body around a musical input signal,
 **key settings**
 - i/o: coupled
 - range a: comb
-- time a: 0. adjust to other whole-number values based on the range of the input chords.
+- time a: 0. adjust to other octaves based on the range of the input chords.
+- time a quant: oct
 - time b: 0.01
 - feedback a: 4.8. sets decay time of resonant tones.
 - fine: set to the same key as the input chords.
