@@ -139,7 +139,20 @@ a few more params can be accessed exclusively in the params menu:
 
 - **time a quant** & **time b quant**
     - **free**: continuous control over **time**.
-    - **oct**: **time** is quantized to whole numbers. this turns **time** into an octave control in comb range, or a clock multiplier/divider in delay range with clock modulation
+    - **oct**: **time** is quantized to whole numbers. 
+      - comb range: **time** becomes an octave control 
+      - delay range w/ clock modulation: time becomes a clock multiplier/divider. reference the table for multiple/division at each volt:
+        | volt   | time in beats       |
+        | ------ | ------------------- |
+        | -2     | 4                   |
+        | -1     | 2                   |
+        | 0      | 1                   |
+        | 1      | 1/2                 |
+        | 2      | 1/4                 |
+        | 3      | 1/8                 |
+        | 4      | 1/16                |
+
+      
 - **fine**: fine tune the **time** value in semitones. adjusts the musical key when sequencing the comb filter pitch via crow. no need to adjust when sequencing over midi.
 - **root**: set the concert pitch frequency for **time**.
 
