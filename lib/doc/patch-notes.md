@@ -109,7 +109,7 @@ it's fun to abuse midi modulation in delay mode. sending the modulation source o
 
 ## 7. a CD skipping in the wind
 
-a variation on [thin ice skating](#6-thin-ice-skating), this time removing the time lag, which means that there will be a click every time time is modulated by the input midi. turn that recently frozen nordic lake into a broken discman!
+a variation on [thin ice skating](#6-thin-ice-skating), this time removing the time lag, which means that there will be a click every time time is modulated by the input midi. turn that recently frozen nordic lake into a broken discman blowing through a meadow!
 
 **input:** plucked synth with a bit of filtered noise
 
