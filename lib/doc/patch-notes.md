@@ -60,3 +60,49 @@ comb filters can act like a strange resonant body around a musical input signal,
 - feedback a: 4.8. sets decay time of resonant tones.
 - fine: set to the same key as the input chords.
 
+## 4. stringed
+
+eels can extend most subtractive synthesizers, turning it into a plucked string synth. sent your synthesizer to output short bursts of filtered noise (no oscillators). then, connect the midi output of your synthesizer to norns & set the **time** modulation source to midi. now, in comb filter mode, eels will transform the input noise bursts into plucked tones, with pitch controlled by the synth's keyboard.
+
+**input:** filtered noise bursts.
+
+**key settings**
+- i/o: coupled
+- range a: comb
+- time a: 0. adjust to set octave.
+- time a quant: oct
+- time b: 0.01
+- feedback a: 4.8. sets decay time of string tone. negative values result in a square-wave-like tone.
+- modulation sources
+  - time a: midi or crow sequence
+
+## 5. filterghost
+
+the send/return **i/o mode** allows you to route any mono audio effect into the feedback loop of the delay. a modulated, resonant filter is a spooky choice.
+
+**input:** synth
+
+**key settings**
+- i/o: send/return
+- range a: delay
+- time a: 3
+- feedback a: 4.5
+- modulation sources
+  - time a: crow or lfo
+
+## 6. thin ice skating
+
+it's fun to abuse the midi modulation in delay mode. sending the modulation source of time to the same midi signal of a synth on the input sounds a lot like this cool video of [thin ice skating](https://www.youtube.com/watch?v=v3O9vNi-dkA&list=WL&index=20).
+
+**input:** plucked synth with a bit of filtered noise
+
+**key settings**
+- i/o: coupled
+- range a: delay
+- time a: 0.
+- time b: 0.01
+- feedback a: 2.5
+- lag a: 4. might need to fine tune to get the right laser souned
+- modulation sources
+  - time a: midi or crow sequence, same pitch as the input voice
+
