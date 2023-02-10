@@ -8,13 +8,12 @@ watch the full video: [link]
 
 set the modulation source of **time** to **clock** to sync a delay with norns' global clock at whole number intervals. setting **time a quant** or **time b quant** to **oct** locks **time** into whole-number multiples & divisions of the clock. play with time to add scattered, pitch-shifted fills.
 
-**input:** plucked synthesizer arpeggio, synced to global clock
+**input:** plucked synthesizer sequence, synced to global clock
 
 **key settings**
 - clock tempo: 48bpm
 - i/o: coupled
 - range a: delay
-- range b: delay
 - time a: 0. increase to add fills
 - time a quant: oct
 - time b: 0.01
@@ -123,3 +122,46 @@ a variation on [thin ice skating](#6-thin-ice-skating), this time removing the t
 - modulation sources
   - time a: midi or crow sequence, same pitch as the input voice
 
+## 8. eel talk
+
+the series **i/o mode** sends the output of eel `A` into the input of eel `B`. this lets us take the [stringed](#4-stringed) patch & add a modulated delay, for echoed plucks.
+
+**input:** filtered noise bursts.
+
+**key settings**
+- i/o: series
+- range a: comb
+- time a: 0. adjust to set octave.
+- time a quant: oct
+- feedback a: 4.8. sets decay time of string tone. negative values result in a square-wave-like tone.
+- time lag a: 3
+- range b: delay
+- time b: 2
+- feedback b: 2.5
+- time lag b: 3
+- modulation sources
+  - time a: midi or crow sequence
+  - time b: lfo or crow
+
+## 9. double dash
+
+a variation on [DK Mountain](#1-DK-Mountain), this time using the dual **i/o mode** to get two separate delays with independent clock multiples.
+
+**input:** plucked synthesizer sequence, synced to global clock
+
+**key settings**
+- clock tempo: 48bpm
+- i/o: dual
+- range a: delay
+- time a: 1. sets left clock multiple/division
+- time a quant: oct
+- feedback a: 2.5
+- time lag a: 3.00
+- range b: delay
+- time b: 2. sets left clock multiple/division
+- time b quant: oct
+- feedback b: 2.5
+- time lag b: 3.00
+- modulation sources
+  - time a: clock
+  - time b: clock
