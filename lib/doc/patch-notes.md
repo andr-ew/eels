@@ -61,6 +61,8 @@ comb filters can act like a strange resonant body around a musical input signal,
 
 ## 4. stringed
 
+[video]
+
 eels can extend most subtractive synthesizers, turning it into a plucked string synth. sent your synthesizer to output short bursts of filtered noise (no oscillators). then, connect the midi output of your synthesizer to norns & set the **time** modulation source to midi. now, in comb filter mode, eels will transform the input noise bursts into plucked tones, with pitch controlled by the synth's keyboard.
 
 **input:** filtered noise bursts.
@@ -78,6 +80,8 @@ eels can extend most subtractive synthesizers, turning it into a plucked string 
 
 ## 5. filterghost
 
+[video]
+
 the send/return **i/o mode** allows you to route any mono audio effect into the feedback loop of the delay. a modulated, resonant filter is a spooky choice.
 
 **input:** synth
@@ -91,6 +95,8 @@ the send/return **i/o mode** allows you to route any mono audio effect into the 
   - time a: crow or lfo
 
 ## 6. thin ice skating
+
+[video]
 
 it's fun to abuse midi modulation in delay mode. sending the modulation source of time to the same midi signal of a synth on the input sounds a lot like this cool video of [thin ice skating](https://www.youtube.com/watch?v=v3O9vNi-dkA&list=WL&index=20).
 
@@ -108,6 +114,8 @@ it's fun to abuse midi modulation in delay mode. sending the modulation source o
 
 ## 7. a CD skipping in the wind
 
+[video]
+
 a variation on [thin ice skating](#6-thin-ice-skating), this time removing the time lag, which means that there will be a click every time time is modulated by the input midi. turn that recently frozen nordic lake into a broken discman blowing through a meadow!
 
 **input:** plucked synth with a bit of filtered noise
@@ -123,6 +131,8 @@ a variation on [thin ice skating](#6-thin-ice-skating), this time removing the t
   - time a: midi or crow sequence, same pitch as the input voice
 
 ## 8. eel talk
+
+[video]
 
 the series **i/o mode** sends the output of eel `A` into the input of eel `B`. this lets us take the [stringed](#4-stringed) patch & add a modulated delay, for echoed plucks.
 
@@ -144,6 +154,8 @@ the series **i/o mode** sends the output of eel `A` into the input of eel `B`. t
   - time b: lfo or crow
 
 ## 9. double dash
+
+[video]
 
 a variation on [DK Mountain](#1-DK-Mountain), this time using the dual **i/o mode** to get two separate delays with independent clock multiples.
 
