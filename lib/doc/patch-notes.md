@@ -73,6 +73,7 @@ eels can extend most subtractive synthesizers, turning it into a plucked string 
 - time a quant: oct
 - time b: 0.01
 - feedback a: 4.8. sets decay time of string tone. negative values result in a square-wave-like tone.
+- time lag a: 0
 - modulation sources
   - time a: midi or crow sequence
 
@@ -92,7 +93,7 @@ the send/return **i/o mode** allows you to route any mono audio effect into the 
 
 ## 6. thin ice skating
 
-it's fun to abuse the midi modulation in delay mode. sending the modulation source of time to the same midi signal of a synth on the input sounds a lot like this cool video of [thin ice skating](https://www.youtube.com/watch?v=v3O9vNi-dkA&list=WL&index=20).
+it's fun to abuse midi modulation in delay mode. sending the modulation source of time to the same midi signal of a synth on the input sounds a lot like this cool video of [thin ice skating](https://www.youtube.com/watch?v=v3O9vNi-dkA&list=WL&index=20).
 
 **input:** plucked synth with a bit of filtered noise
 
@@ -102,7 +103,23 @@ it's fun to abuse the midi modulation in delay mode. sending the modulation sour
 - time a: 0.
 - time b: 0.01
 - feedback a: 2.5
-- lag a: 4. might need to fine tune to get the right laser souned
+- lag a: 1. might need to fine tune to get the right laser sound
+- modulation sources
+  - time a: midi or crow sequence, same pitch as the input voice
+
+## 7. a CD skipping in the wind
+
+a variation on [thin ice skating](#6-thin-ice-skating), this time removing the time lag, which means that there will be a click every time time is modulated by the input midi. turn that recently frozen nordic lake into a broken discman!
+
+**input:** plucked synth with a bit of filtered noise
+
+**key settings**
+- i/o: coupled
+- range a: delay
+- time a: 0.
+- time b: 0.01
+- feedback a: 2.5
+- time lag a: 0
 - modulation sources
   - time a: midi or crow sequence, same pitch as the input voice
 
