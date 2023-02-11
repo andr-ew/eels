@@ -23,8 +23,9 @@ currently in beta - any & all feedback is highly appreciated! feel free to creat
 
 ## install
 
+in the maiden REPL, type: 
 ```
-~
+;install https://github.com/andr-ew/eels/releases/download/v1.0/complete-source-code.zip
 ```
 
 ## norns UI
