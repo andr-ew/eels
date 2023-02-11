@@ -28,7 +28,7 @@ in the maiden REPL, type:
 
 [watch the video]
 
-[read the full patch notes doc](/lib/doc/patch-notes.md)
+[read the complete patch notes](/lib/doc/patch-notes.md)
 
 ## documentation
 
