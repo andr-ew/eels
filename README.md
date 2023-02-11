@@ -1,4 +1,4 @@
-<h1 align="center">EELS</h1>
+<h1 align="">EELS</h1>
 
 ![eels screen animated gif. two pixelated eels flop up & down in sync as 'time a' is modified](/lib/doc/img/eels_cover.gif)
 
