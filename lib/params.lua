@@ -49,7 +49,7 @@ do
                 set.feedbacks()
             end,
             controlspec = cs.def{
-                min = 0, max = 6, default = ({ 2, 0.01 })[i],
+                min = -2, max = 4, default = ({ 0, 0.01 })[i],
                 units = 'v/oct', quantum = 1/100/6, step = 0.01,
             }
         }
@@ -59,7 +59,7 @@ do
                 set.times()
                 set.feedbacks()
             end,
-            min = 0, max = 6, default = ({ 2, 0 })[i],
+            min = -2, max = 4, default = ({ 0, 0 })[i],
             formatter = function(p) return (p:get().." v/oct") end
         }
     end
@@ -166,8 +166,10 @@ do
 end
 
 --add LFO params
-params:add_separator('lfo')
-src.lfo:add_params('lfo')
+for i = 1,2 do
+    params:add_separator('lfo '..i)
+    src.lfo[i]:add_params('lfo_'..i)
+end
 
 --add pset params
 do

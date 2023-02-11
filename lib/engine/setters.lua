@@ -46,9 +46,9 @@ local function get_feedback_amp(time, del)
     if range == COMB then
         local decay = volt_decay(volt)
         local amp = decay_amp(time, decay)
-        return amp
+        return amp, volt
     elseif range == DELAY then
-        return volt/5
+        return volt/5, volt
     end
 end
 local function get_feedback_decay(time, del)
@@ -58,13 +58,18 @@ local function get_feedback_decay(time, del)
     local volt = params:get(id) + mod.get(mod_id)
 
     if range == COMB then
-        return volt_decay(volt)
+        return volt_decay(volt), volt
     elseif range == DELAY then
-        return amp_decay(time, volt/5)
+        return amp_decay(time, volt/5), volt
     end
 end
 
-local mults = { [DELAY] = 2^11, [COMB] = 2^2 }
+local mults = { [DELAY] = 2^9, [COMB] = 2^0 }
+
+ui.time_range = {
+    [DELAY] = { 4.65, 0.07 },
+    [COMB] = { 1/110, 1/7040 },
+}
 
 local function time_volt_seconds(volt, range)
     local hz = params:get('root')
@@ -145,43 +150,43 @@ function set.in_amps(arc_silent)
     local b = get_amp('in_level_b', 'input b')
 
     if mode == COUPLED and input==STEREO then
-        enabled['in_level_a'] = true
-        enabled['in_level_b'] = false
+        ui.enabled['in_level_a'] = true
+        ui.enabled['in_level_b'] = false
         engine.amp_in_left_a(a)
         engine.amp_in_right_a(0)
         engine.amp_in_left_b(0)
         engine.amp_in_right_b(a)
     elseif mode == COUPLED and input==MONO then
-        enabled['in_level_a'] = true
-        enabled['in_level_b'] = false
+        ui.enabled['in_level_a'] = true
+        ui.enabled['in_level_b'] = false
         engine.amp_in_left_a(a)
         engine.amp_in_right_a(a)
         engine.amp_in_left_b(a)
         engine.amp_in_right_b(a)
     elseif (mode == DECOUPLED or mode == SERIES) and input==STEREO then
-        enabled['in_level_a'] = true
-        enabled['in_level_b'] = true
+        ui.enabled['in_level_a'] = true
+        ui.enabled['in_level_b'] = true
         engine.amp_in_left_a(a)
         engine.amp_in_right_a(0)
         engine.amp_in_left_b(0)
         engine.amp_in_right_b(b)
     elseif (mode == DECOUPLED or mode == SERIES) and input==MONO then
-        enabled['in_level_a'] = true
-        enabled['in_level_b'] = true
+        ui.enabled['in_level_a'] = true
+        ui.enabled['in_level_b'] = true
         engine.amp_in_left_a(a)
         engine.amp_in_right_a(a)
         engine.amp_in_left_b(b)
         engine.amp_in_right_b(b)
     elseif mode == PINGPONG then
-        enabled['in_level_a'] = true
-        enabled['in_level_b'] = true
+        ui.enabled['in_level_a'] = true
+        ui.enabled['in_level_b'] = true
         engine.amp_in_left_a(0)
         engine.amp_in_right_a(0)
         engine.amp_in_left_b(a)
         engine.amp_in_right_b(0)
     elseif mode == SENDRETURN then
-        enabled['in_level_a'] = true
-        enabled['in_level_b'] = false
+        ui.enabled['in_level_a'] = true
+        ui.enabled['in_level_b'] = false
         engine.amp_in_left_a(a)
         -- engine.amp_in_right_a(feedback)
         engine.amp_in_left_b(0)
@@ -197,23 +202,35 @@ function set.times(arc_silent)
     local b = get_time_seconds('b')
 
     if mode == COUPLED then
-        enabled['time a'] = true
-        enabled['time b'] = true
+        ui.enabled['time a'] = true
+        ui.enabled['time b'] = true
+        ui.set_time('a', a)
+        ui.set_time('b', get_time_seconds('sum'))
+
         engine.time_a(a)
         engine.time_b(get_time_seconds('sum'))
     elseif mode == DECOUPLED or mode == SERIES then
-        enabled['time a'] = true
-        enabled['time b'] = true
+        ui.enabled['time a'] = true
+        ui.enabled['time b'] = true
+        ui.set_time('a', a)
+        ui.set_time('b', b)
+
         engine.time_a(a)
         engine.time_b(b)
     elseif mode == PINGPONG then
-        enabled['time a'] = true
-        enabled['time b'] = false
+        ui.enabled['time a'] = true
+        ui.enabled['time b'] = false
+        ui.set_time('a', a)
+        ui.set_time('b', a)
+
         engine.time_a(a)
         engine.time_b(a)
     elseif mode == SENDRETURN then
-        enabled['time a'] = true
-        enabled['time b'] = false
+        ui.enabled['time a'] = true
+        ui.enabled['time b'] = false
+        ui.set_time('a', a)
+        ui.set_time('b', 0)
+
         engine.time_a(a)
         engine.time_b(a)
     end
@@ -227,23 +244,23 @@ function set.time_lags(arc_silent)
     local b = get_lag_seconds('b')
 
     if mode == COUPLED then
-        enabled['time lag a'] = true
-        enabled['time lag b'] = false
+        ui.enabled['time lag a'] = true
+        ui.enabled['time lag b'] = false
         engine.time_lag_a(a)
         engine.time_lag_b(a)
     elseif mode == DECOUPLED or mode == SERIES then
-        enabled['time lag a'] = true
-        enabled['time lag b'] = true
+        ui.enabled['time lag a'] = true
+        ui.enabled['time lag b'] = true
         engine.time_lag_a(a)
         engine.time_lag_b(b)
     elseif mode == PINGPONG then
-        enabled['time lag a'] = true
-        enabled['time lag b'] = false
+        ui.enabled['time lag a'] = true
+        ui.enabled['time lag b'] = false
         engine.time_lag_a(a)
         engine.time_lag_b(a)
     elseif mode == SENDRETURN then
-        enabled['time lag a'] = true
-        enabled['time lag b'] = false
+        ui.enabled['time lag a'] = true
+        ui.enabled['time lag b'] = false
         engine.time_lag_a(a)
         engine.time_lag_b(a)
     end
@@ -255,8 +272,8 @@ function set.feedbacks(arc_silent)
 
     local time_a = get_time_seconds('a')
     local time_b = get_time_seconds('b')
-    local a_amp = get_feedback_amp(time_a, 'a')
-    local b_amp = get_feedback_amp(time_b, 'b')
+    local a_amp, a_volt = get_feedback_amp(time_a, 'a')
+    local b_amp, b_volt = get_feedback_amp(time_b, 'b')
     local a_decay = get_feedback_decay(time_a, 'a')
     local b_decay = get_feedback_decay(time_b, 'b')
 
@@ -264,36 +281,54 @@ function set.feedbacks(arc_silent)
         local time_sum = get_time_seconds('sum')
         local decay_sum = get_feedback_decay(time_sum, 'a')
 
-        enabled['fb_level_a'] = true
-        enabled['fb_level_b'] = false
+        ui.enabled['fb_level_a'] = true
+        ui.enabled['fb_level_b'] = false
+        ui.fb_volt.a = a_volt
+        do
+            local _, volt = get_feedback_amp(time_sum, 'a')
+            ui.fb_volt.b = volt
+        end
+
         engine.decay_a_a(a_decay)
         engine.amp_b_a(0)
         engine.amp_a_b(0)
         engine.decay_b_b(decay_sum)
     elseif mode == DECOUPLED then
-        enabled['fb_level_a'] = true
-        enabled['fb_level_b'] = true
+        ui.enabled['fb_level_a'] = true
+        ui.enabled['fb_level_b'] = true
+        ui.fb_volt.a = a_volt
+        ui.fb_volt.b = b_volt
+
         engine.decay_a_a(a_decay)
         engine.amp_b_a(0)
         engine.amp_a_b(0)
         engine.decay_b_b(b_decay)
     elseif mode == SERIES then
-        enabled['fb_level_a'] = true
-        enabled['fb_level_b'] = true
+        ui.enabled['fb_level_a'] = true
+        ui.enabled['fb_level_b'] = true
+        ui.fb_volt.a = a_volt
+        ui.fb_volt.b = b_volt
+
         engine.decay_a_a(a_decay)
         engine.amp_b_a(0)
         -- engine.amp_a_b(out_a)
         engine.decay_b_b(b_decay)
     elseif mode == PINGPONG then
-        enabled['fb_level_a'] = true
-        enabled['fb_level_b'] = false
+        ui.enabled['fb_level_a'] = true
+        ui.enabled['fb_level_b'] = false
+        ui.fb_volt.a = a_volt
+        ui.fb_volt.b = a_volt
+
         engine.decay_a_a(0)
         engine.amp_b_a(a_amp)
         engine.amp_a_b(a_amp)
         engine.decay_b_b(0)
     elseif mode == SENDRETURN then
-        enabled['fb_level_a'] = true
-        enabled['fb_level_b'] = false
+        ui.enabled['fb_level_a'] = true
+        ui.enabled['fb_level_b'] = false
+        ui.fb_volt.a = a_volt
+        ui.fb_volt.b = 0
+
         engine.decay_a_a(0)
         engine.amp_b_a(0)
         engine.amp_a_b(0)
@@ -314,22 +349,31 @@ function set.out_amps(arc_silent)
     local pan_left_b, pan_right_b = 1 - width, 1
 
     if mode == COUPLED or mode == PINGPONG then
-        enabled['out_level_a'] = true
-        enabled['out_level_b'] = false
+        ui.enabled['out_level_a'] = true
+        ui.enabled['out_level_b'] = false
+        ui.out_amps.a = a
+        ui.out_amps.b = a
+
         engine.amp_out_left_a(a * pan_left_a)
         engine.amp_out_right_a(a * pan_right_a)
         engine.amp_out_left_b(a * pan_left_b)
         engine.amp_out_right_b(a * pan_right_b)
     elseif mode == DECOUPLED then
-        enabled['out_level_a'] = true
-        enabled['out_level_b'] = true
+        ui.enabled['out_level_a'] = true
+        ui.enabled['out_level_b'] = true
+        ui.out_amps.a = a
+        ui.out_amps.b = b
+
         engine.amp_out_left_a(a * pan_left_a)
         engine.amp_out_right_a(a * pan_right_a)
         engine.amp_out_left_b(b * pan_left_b)
         engine.amp_out_right_b(b * pan_right_b)
     elseif mode == SERIES then
-        enabled['out_level_a'] = true
-        enabled['out_level_b'] = true
+        ui.enabled['out_level_a'] = true
+        ui.enabled['out_level_b'] = true
+        ui.out_amps.a = a
+        ui.out_amps.b = b
+
         engine.amp_out_left_a(a * pan_left_a)
         engine.amp_out_right_a(a * pan_right_a)
         engine.amp_out_left_b(b * pan_left_b)
@@ -337,8 +381,11 @@ function set.out_amps(arc_silent)
 
         engine.amp_a_b(a)
     elseif mode == SENDRETURN then
-        enabled['out_level_a'] = true
-        enabled['out_level_b'] = true
+        ui.enabled['out_level_a'] = true
+        ui.enabled['out_level_b'] = true
+        ui.out_amps.a = a
+        ui.out_amps.b = 0
+
         engine.amp_out_left_a(0)
         engine.amp_out_right_a(1)
         engine.amp_out_left_b(0)
