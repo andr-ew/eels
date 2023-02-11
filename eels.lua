@@ -76,8 +76,8 @@ mod.destinations = {
 
 mod.sources = {}
 do
-    local time = { 'none', 'lfo', 'crow in 1', 'crow in 2', 'midi', 'clock' }
-    local other = { 'none', 'lfo', 'crow in 1', 'crow in 2'  }
+    local time = { 'none', 'lfo 1', 'lfo 2', 'crow in 1', 'crow in 2', 'midi', 'clock' }
+    local other = { 'none', 'lfo 1', 'lfo 2', 'crow in 1', 'crow in 2', 'midi'  }
 
     for _,dest in ipairs(mod.destinations) do
         mod.sources[dest] = other
@@ -89,7 +89,8 @@ end
 
 mod.values = {
     ['none'] = 0,
-    ['lfo'] = 0,
+    ['lfo 1'] = 0,
+    ['lfo 2'] = 0,
     ['crow in 1'] = 0,
     ['crow in 2'] = 0,
     ['midi'] = 0,
@@ -98,8 +99,8 @@ mod.values = {
 
 mod.actions = {
     ['none'] = function(arc_silent) end,
-    ['time a'] = function(a_s) set.times(a_s); set.feedbacks(a_s) end,
-    ['time b'] = function(a_s) set.times(s_s); set.feedbacks(a_s) end,
+    ['time a'] = function(a_s) set.times(true); set.feedbacks(true) end,
+    ['time b'] = function(a_s) set.times(true); set.feedbacks(true) end,
     ['time lag a'] = set.time_lags,
     ['time lag b'] = set.time_lags,
     ['feedback a'] = set.feedbacks,
@@ -136,7 +137,8 @@ function init()
 
     params:read()
     
-    src.lfo:start()
+    for i = 1,2 do src.lfo[i]:start() end
+
     src.clock.start()
     
     params:bang()

@@ -109,6 +109,8 @@ end
 local function Mod()
     local remainder_mode = 0.0
 
+    local lfo_focus = 1
+
     return function()
         do
             local n, id = 1, 'io_mode'
@@ -129,7 +131,17 @@ local function Mod()
             }
         end
         do
-            local n, id = 2, 'lfo_free_lfo'
+            _key.integer{
+                n_next = 3, min = 1, max = 2,
+                state = { lfo_focus, function(v) lfo_focus = v; crops.dirty.screen = true end },
+            }
+            _screen.list{
+                x = k[3].x, y = k[3].y, --margin = 3,
+                text = { 'lfo1', 'lfo2' }, focus = lfo_focus,
+            }
+        end
+        do
+            local n, id = 2, 'lfo_free_lfo_'..lfo_focus
             _enc.control{
                 n = n,
                 state = {
@@ -146,7 +158,7 @@ local function Mod()
             }
         end
         do
-            local n, id = 3, 'lfo_depth_lfo'
+            local n, id = 3, 'lfo_depth_lfo_'..lfo_focus
             _enc.decimal{
                 n = n,
                 min = params:lookup_param(id).min,

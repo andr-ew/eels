@@ -16,22 +16,28 @@ end
 
 src.midi = m
 
-src.lfo = lfos:add{
-    min = 0,
-    max = 5,
-    depth = 0.1,
-    mode = 'free',
-    period = 0.25,
-    action = function(scaled, raw) 
-        mod.set('lfo', scaled) 
-    end,
-}
+src.lfo = {}
+
+for i = 1,2 do
+    src.lfo[i] = lfos:add{
+        min = 0,
+        max = 5,
+        depth = 0.1,
+        mode = 'free',
+        period = 0.25,
+        action = function(scaled, raw) 
+            mod.set('lfo '..i, scaled) 
+        end,
+    }
+end
 
 src.lfo.reset_params = function()
-    params:set('mod time a', tab.key(mod.sources['time a'], 'lfo'))
-    params:set('lfo_mode_lfo', 2)
-    params:set('lfo_max_lfo', 0.5)
-    params:set('lfo_lfo', 2)
+    params:set('mod time a', tab.key(mod.sources['time a'], 'lfo 1'))
+    for i = 1,2 do
+        params:set('lfo_mode_lfo_'..i, 2)
+        params:set('lfo_max_lfo_'..i, 0.5)
+        params:set('lfo_lfo_'..i, 2)
+    end
 end
 
 src.clock = {}

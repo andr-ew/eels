@@ -166,8 +166,10 @@ do
 end
 
 --add LFO params
-params:add_separator('lfo')
-src.lfo:add_params('lfo')
+for i = 1,2 do
+    params:add_separator('lfo '..i)
+    src.lfo[i]:add_params('lfo_'..i)
+end
 
 --add pset params
 do
