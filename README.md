@@ -19,6 +19,10 @@ an undersea cousin of [wrms](https://github.com/andr-ew/wrms).
 
 ## install
 
+install from the maiden catalog
+
+or
+
 in the maiden REPL, type: 
 ```
 ;install https://github.com/andr-ew/eels/releases/download/v1.0/complete-source-code.zip
