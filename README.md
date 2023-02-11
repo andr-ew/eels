@@ -172,6 +172,6 @@ the parameters of the internal lfo. see [`lib/lfo`](https://monome.org/docs/norn
 
 ### pset
 
-- **reset all params**: reset all params to default values
+- **reset all params**: resets all params to default values
 - **overwrite default pset**: when **autosave** is disabled, sets the current state as the default state when starting the script.
 - **autosave pset**: disables saving the pset to the default slot when exiting the script. when enabled, settings will persist between sessions.
