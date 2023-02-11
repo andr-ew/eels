@@ -70,7 +70,7 @@ function src.crow.update()
     end
     
     for i, map in ipairs(mapped) do if map then
-        crow.input[i].mode('stream', 0.001)
+        crow.input[i].mode('stream', 0.002)
         crow.input[i].stream = function(v)
             mod.set('crow in '..i, v)
         end
