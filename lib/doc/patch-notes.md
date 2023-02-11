@@ -98,7 +98,7 @@ the send/return **i/o mode** allows you to route any mono audio effect into the 
 
 [video]
 
-it's fun to abuse midi modulation in delay mode. sending the modulation source of time to the same midi signal of a synth on the input sounds a lot like this cool video of [thin ice skating](https://www.youtube.com/watch?v=v3O9vNi-dkA&list=WL&index=20).
+it's fun to abuse midi modulation in delay mode. setting the modulation source of time to the same midi signal of a synth on the input sounds a lot like this cool video of [thin ice skating](https://www.youtube.com/watch?v=v3O9vNi-dkA&list=WL&index=20).
 
 **input:** plucked synth with a bit of filtered noise
 
