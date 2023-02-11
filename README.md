@@ -30,7 +30,7 @@ in the maiden REPL, type:
 
 [read the complete patch notes](/lib/doc/patch-notes.md)
 
-## documentation
+## norns UI
 
 ### intro
 
@@ -121,7 +121,7 @@ the most common use for comb filters is [Karplus–Strong synthesis](https://en.
 
 **feedback** sets the feedback level of the delay, or the decay time of the comb filter.
     
-### arc
+## arc UI
 
 arc offers high-sensitivity control of key parameters. highly reccomended!
 
