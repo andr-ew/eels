@@ -169,9 +169,9 @@ a few more params can be accessed exclusively in the params menu:
 
 set the modulation source for each modulatable param
 
-### lfo
+### lfo 1 + 2
 
-the parameters of the internal lfo. see [`lib/lfo`](https://monome.org/docs/norns/reference/lib/lfo#lfo-attributes--defaults) for further info.
+the parameters of the internal lfos. see [`lib/lfo`](https://monome.org/docs/norns/reference/lib/lfo#lfo-attributes--defaults) for further info.
 
 ### pset
 
