@@ -1,11 +1,6 @@
 <h1 align="center">EELS</h1>
+
 ![eels screen animated gif. two pixelated eels flop up & down in sync as 'time a' is modified](/lib/doc/img/eels_cover.gif)
-
-
-<p align="center">
-  <img src="https://raw.githubusercontent.com/andr-ew/eels/v1/lib/doc/img/eels.gif" alt="eels screen animated gif. two pixelated eels flop up & down in sync as 'time a' is modified "/>
-</p>
-<br>
 
 dual delay / comb filter with a variety of i/o modes and modulation options.
 
