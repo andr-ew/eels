@@ -24,7 +24,13 @@ in the maiden REPL, type:
 ;install https://github.com/andr-ew/eels/releases/download/v1.0/complete-source-code.zip
 ```
 
-## norns UI
+## patch notes
+
+[watch the video]
+
+[read the full patch notes doc](/lib/doc/patch-notes.md)
+
+## documentation
 
 ### intro
 
@@ -115,7 +121,7 @@ the most common use for comb filters is [Karplus–Strong synthesis](https://en.
 
 **feedback** sets the feedback level of the delay, or the decay time of the comb filter.
     
-## arc UI
+### arc
 
 arc offers high-sensitivity control of key parameters. highly reccomended!
 
