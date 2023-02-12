@@ -3,7 +3,7 @@
 -- dual digital delay 
 -- & comb filter
 --
--- version 0.1-beta @andrew
+-- version 1.0 @andrew
 
 --external libs
 
