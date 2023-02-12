@@ -25,7 +25,7 @@ or
 
 in the maiden REPL, type: 
 ```
-;install https://github.com/andr-ew/eels/releases/download/v1.0/complete-source-code.zip
+;install https://github.com/andr-ew/eels/releases/download/latest/complete-source-code.zip
 ```
 
 ## patch notes
