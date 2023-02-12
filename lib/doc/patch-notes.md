@@ -1,6 +1,6 @@
 # patch notes
 
-watch the full video: [link]
+watch the video: [link](https://www.youtube.com/watch?v=NxpqsLtH880)
 
 ## 1. DK Mountain
 
