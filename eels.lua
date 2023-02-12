@@ -4,6 +4,10 @@
 -- & comb filter
 --
 -- version 1.0 @andrew
+--
+-- K2: page
+-- K3: various
+-- E1-E3: various
 
 --external libs
 
