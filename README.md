@@ -30,7 +30,7 @@ in the maiden REPL, type:
 
 ## patch notes
 
-[watch the video]
+[watch the video](https://www.youtube.com/watch?v=NxpqsLtH880)
 
 [read the complete patch notes](/lib/doc/patch-notes.md)
 
