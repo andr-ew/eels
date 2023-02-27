@@ -83,8 +83,8 @@ eels has two internal LFOs, which can be set as modulation sources for parameter
 ![page A of rpls, E1-3 & K2-3 are labelled](/lib/doc/img/eels-01.png)
 
 - **E1:** delay time (v/oct)
-- **E2:** delay time slew/lag (volts, -5 to +5)
-- **E3:** delay feedback (volts, 0 to +5)
+- **E2:** delay time slew/lag (volts, 0 to +5)
+- **E3:** delay feedback (volts, -5 to +5)
 - **K3:** delay range
 
 on page `B`, some parameters may appear greyed-out – this means that those parameters are mapped to the value of eel **A** in accordance to the current **i/o mode**.
