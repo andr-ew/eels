@@ -118,7 +118,7 @@ the most common use for comb filters is [Karplus–Strong synthesis](https://en.
 | 3      | 0.14 seconds        | 3520 hz          |
 | 4      | 0.07 seconds        | 7040 hz          |
 
-- **NOTE:** the range is quite wide - when mapping to a midi controller, you may want to reduce the output range of the mapping for more sesitive control.
+- **NOTE:** the range is quite wide - when mapping to a midi controller, you may want to reduce the output range of the mapping for more sensitive control.
 - **NOTE:** in comb range, **ping-pong** & **send/return** modes do not track v/oct correctly
     
 **lag** sets the lag/slew value for **time**. set to 0 for instantaneous changes (clicky), set > 0 for smoothed encoder movements or portamento when sequencing comb filter pitch.
