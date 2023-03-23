@@ -90,8 +90,8 @@ eels has two internal LFOs, which can be set as modulation sources for parameter
 on page `B`, some parameters may appear greyed-out – this means that those parameters are mapped to the value of eel **A** in accordance to the current **i/o mode**.
 
 there are two ranges for **time**, which detirmines the audio effect that the eel will be set up to behave like:
-- **delay**: use delay range for **time** (4.65s - 0.07s).
-- **comb**: use comb filter range for **time** (110hz - 7040hz).
+- **delay**: 4.65s - 0.07s
+- **comb**: 110hz - 7040hz
 
 the **delay** range can be useful for several types of effects:
 | range of time                     | use case                         |
