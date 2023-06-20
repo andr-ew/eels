@@ -6,6 +6,8 @@ dual delay / comb filter with a variety of i/o modes and modulation options.
 
 an undersea cousin of [wrms](https://github.com/andr-ew/wrms).
 
+**NOTE:** to view images, please read at [github.com](https://github.com/andr-ew/eels) not [norns.community](https://norns.community/eels)
+
 ## hardware
 
 **required**
